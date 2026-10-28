@@ -16,7 +16,7 @@ import 'library_entry.dart';
 /// Every save also renders a small PNG thumbnail via the same
 /// `LabelLayoutEngine` + `CanvasRenderer` pipeline used for the live
 /// preview, and stores it in [DocumentMetadata.thumbnailBase64] — exactly
-/// the field `label_core` already reserves for this purpose.
+/// the field `core` already reserves for this purpose.
 class LibraryRepository {
   const LibraryRepository({
     required this.directory,

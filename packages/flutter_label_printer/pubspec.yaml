@@ -1,0 +1,24 @@
+name: flutter_label_printer
+description: >
+  Motor de layout, serialização e renderers (PDF, PNG, PPLA/Argox) para
+  etiquetas, mais o contrato de transporte de impressão. Sem UI de edição.
+version: 2.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.8.1
+  flutter: ">=3.32.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  barcode: ^2.2.9
+  equatable: ^2.0.5
+  image: ^4.1.7
+  pdf: ^3.11.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lints: ^5.0.0
+  test: ^1.24.0

@@ -23,7 +23,7 @@ void main() {
   testWidgets('shows an empty state and a way to create the first label', (
     tester,
   ) async {
-    await tester.pumpWidget(wrap(LibraryScreen(repository: repository)));
+    await tester.pumpWidget(wrap(LibraryScreen(repository: repository, themeMode: ThemeMode.system, onToggleThemeMode: () {})));
     await tester.pumpAndSettle();
 
     expect(find.text('Nenhuma etiqueta ainda.'), findsOneWidget);
@@ -34,7 +34,7 @@ void main() {
     await repository.create(name: 'Etiqueta A');
     await repository.create(name: 'Etiqueta B');
 
-    await tester.pumpWidget(wrap(LibraryScreen(repository: repository)));
+    await tester.pumpWidget(wrap(LibraryScreen(repository: repository, themeMode: ThemeMode.system, onToggleThemeMode: () {})));
     await tester.pumpAndSettle();
 
     expect(find.text('Etiqueta A'), findsOneWidget);
@@ -45,7 +45,7 @@ void main() {
     tester,
   ) async {
     await repository.create(name: 'Original');
-    await tester.pumpWidget(wrap(LibraryScreen(repository: repository)));
+    await tester.pumpWidget(wrap(LibraryScreen(repository: repository, themeMode: ThemeMode.system, onToggleThemeMode: () {})));
     await tester.pumpAndSettle();
 
     await tester.tap(find.byType(PopupMenuButton<VoidCallback>));
@@ -61,7 +61,7 @@ void main() {
     tester,
   ) async {
     await repository.create(name: 'Descartável');
-    await tester.pumpWidget(wrap(LibraryScreen(repository: repository)));
+    await tester.pumpWidget(wrap(LibraryScreen(repository: repository, themeMode: ThemeMode.system, onToggleThemeMode: () {})));
     await tester.pumpAndSettle();
 
     await tester.tap(find.byType(PopupMenuButton<VoidCallback>));

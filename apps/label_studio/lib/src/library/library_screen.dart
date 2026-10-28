@@ -9,7 +9,7 @@ import 'library_repository.dart';
 
 /// Home screen: the local library of saved templates, with new/open/
 /// duplicate/delete/export/print — see `docs/ARCHITECTURE.md` section 20
-/// for why none of this lives in `label_designer` itself.
+/// for why none of this lives in `designer` itself.
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({
     super.key,

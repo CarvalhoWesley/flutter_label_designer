@@ -13,14 +13,14 @@ de propriedades mostram algo útil imediatamente.
 "Salvar" exercita o pipeline completo que um projeto consumidor rodaria
 na hora de salvar/exportar/imprimir (ver `docs/ARCHITECTURE.md`, seção 20):
 
-1. codifica o `LabelDocument` via `label_serialization`;
+1. codifica o `LabelDocument` via `serialization` (flutter_label_printer);
 2. abre um diálogo nativo de "Salvar como" (`file_picker`), sugerindo o
    nome da própria etiqueta como nome de arquivo, e grava o `.label` em
    disco;
 3. resolve via `LabelLayoutEngine`, usando os valores de amostra já
    declarados nas variáveis do documento;
 4. renderiza o documento resolvido em **dois** backends reais —
-   `label_renderer_pdf` (PDF vetorial) e `label_renderer_argox` (comandos
+   `renderer_pdf` (PDF vetorial) e `renderer_argox` (comandos
    PPLA) — e mostra o resultado (caminho salvo + tamanho de cada saída)
    num snackbar.
 

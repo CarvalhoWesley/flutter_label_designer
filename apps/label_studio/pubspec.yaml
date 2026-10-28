@@ -6,7 +6,7 @@ description: >
   tudo via flutter_label_designer — a mesma única dependência prevista para
   qualquer projeto Flutter consumidor (ver docs/INTEGRATION.md e
   docs/ARCHITECTURE.md, seção 20).
-version: 1.0.0+1
+version: 2.0.0+2
 publish_to: none
 
 environment:
@@ -18,10 +18,8 @@ dependencies:
     sdk: flutter
   flutter_label_designer:
     path: ../../packages/flutter_label_designer
-  label_print_transport:
-    path: ../../packages/label_print_transport
-  label_print_transport_windows:
-    path: ../../packages/label_print_transport_windows
+  flutter_label_printer_windows:
+    path: ../../packages/flutter_label_printer_windows
   file_picker: ^8.1.0
   path_provider: ^2.1.0
   uuid: ^4.5.0

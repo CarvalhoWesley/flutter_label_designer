@@ -7,7 +7,8 @@ import '../library/library_repository.dart';
 import '../print/print_dialog.dart';
 
 /// Full visual editor for one library entry: `LabelDesigner` (canvas,
-/// layers, properties — see `packages/label_designer`) plus this app's own
+/// layers, properties — see
+/// `packages/flutter_label_designer/lib/src/designer`) plus this app's own
 /// save/export/print, which `LabelDesigner` deliberately doesn't know how
 /// to do on its own.
 class EditorScreen extends StatefulWidget {
