@@ -82,7 +82,7 @@ class MinhaTelaDeEdicao extends StatelessWidget {
 }
 ```
 
-**Armadilha conhecida**: `EdgeInsets` do modelo (`flutter_label_printer`) (margens em mm) e `flutter/material.dart`'s `EdgeInsets` têm o mesmo nome. Se o seu arquivo importar os dois, esconda um deles como no exemplo acima — é o mesmo workaround que o próprio editor já usa internamente, não é algo novo.
+**Armadilha conhecida**: `EdgeInsets` do modelo (margens em mm, de `flutter_label_printer`) e `flutter/material.dart`'s `EdgeInsets` têm o mesmo nome. Se o seu arquivo importar os dois, esconda um deles como no exemplo acima — é o mesmo workaround que o próprio editor já usa internamente, não é algo novo.
 
 ## 3. Resolver e renderizar na hora de exportar/imprimir
 

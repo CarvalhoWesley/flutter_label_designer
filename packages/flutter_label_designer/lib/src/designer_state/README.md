@@ -1,4 +1,4 @@
-# label_designer_state
+# designer_state (flutter_label_designer)
 
 Stores MobX que orquestram documento, seleção, histórico, camadas e viewport do editor. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 14.
 

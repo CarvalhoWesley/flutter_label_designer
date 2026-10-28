@@ -23,7 +23,7 @@ class RasterizeOptions {
   final int dotMultiplier;
 
   /// How many times finer to render before averaging down to the final
-  /// grid (see [downsampleRgba]) — anti-aliasing only, never changes the
+  /// grid (see `downsampleRgba`) — anti-aliasing only, never changes the
   /// final image's pixel dimensions. `1` disables it.
   final int supersample;
 

@@ -1,4 +1,4 @@
-# label_renderer_argox
+# renderer_argox (flutter_label_printer)
 
 Renderiza um `ResolvedDocument` em comandos PPLA (Printer Programming Language A) para impressoras Argox, via o `BaseRenderer` Template Method de `label_renderer`. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 11, e [docs/ROADMAP.md](../../docs/ROADMAP.md), etapa 16.
 

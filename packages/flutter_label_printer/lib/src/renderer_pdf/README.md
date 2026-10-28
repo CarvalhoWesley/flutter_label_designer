@@ -1,4 +1,4 @@
-# label_renderer_pdf
+# renderer_pdf (flutter_label_printer)
 
 Renderiza um `ResolvedDocument` em PDF vetorial usando [`package:pdf`](https://pub.dev/packages/pdf) — texto com fonte real, formas e código de barras/QR como paths, nunca bitmap. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 11, e [docs/ROADMAP.md](../../docs/ROADMAP.md), etapa 15.
 

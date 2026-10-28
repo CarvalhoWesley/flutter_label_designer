@@ -1,4 +1,4 @@
-# label_preview
+# preview (flutter_label_designer)
 
 Widget de preview ao vivo do editor:
 

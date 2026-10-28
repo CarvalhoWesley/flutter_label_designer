@@ -1,4 +1,4 @@
-# label_serialization
+# serialization (flutter_label_printer)
 
 Codec entre o formato `.label` (JSON) e `LabelDocument`, com pipeline de migração versionada (Chain of Responsibility). Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 12.
 

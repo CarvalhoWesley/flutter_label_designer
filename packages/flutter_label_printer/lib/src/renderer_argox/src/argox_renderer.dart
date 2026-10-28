@@ -43,7 +43,7 @@ class ArgoxRenderer extends BaseRenderer {
   /// label length, enter-label-format, dot size, darkness. Public for the
   /// same raster-mode reuse reason as [clearMemoryCommand].
   ///
-  /// [dotMultiplierOverride] replaces [pplaDotMultiplier]'s DPI-based
+  /// [dotMultiplierOverride] replaces `pplaDotMultiplier`'s DPI-based
   /// default for just the `D` (dot size) command — a raster-only job has
   /// no barcode module-width field (the one other place the multiplier
   /// matters) to desync, so `renderer_argox_raster` uses this to

@@ -1,4 +1,4 @@
-# label_history
+# history (flutter_label_designer)
 
 Command Pattern e undo/redo sobre `LabelDocument`. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 13.
 

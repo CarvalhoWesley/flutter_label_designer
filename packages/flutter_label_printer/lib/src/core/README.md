@@ -1,4 +1,4 @@
-# label_core
+# core (flutter_label_printer)
 
 Modelos de domínio do [Label Designer Framework](../../docs/ARCHITECTURE.md): `LabelDocument`, `LabelElement` e seus subtipos, além dos value objects de geometria e unidades.
 

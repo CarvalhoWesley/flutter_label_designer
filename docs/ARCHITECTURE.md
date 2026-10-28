@@ -61,17 +61,19 @@ A lista de packages fornecida é o ponto de partida. Como arquiteto, proponho os
 
 Nenhum outro pacote da lista original foi removido ou renomeado.
 
-> **Adição pós-etapa 18**: `label_print_transport` estava previsto no ROADMAP como um
+> **Adição pós-etapa 18**: o transporte de impressão estava previsto no ROADMAP como um
 > único pacote futuro ("consumido apenas por projetos externos, nunca pelo domínio"). Na
-> etapa 20, ao implementá-lo, ele foi dividido em dois: `label_print_transport` (só a
+> etapa 20, ao implementá-lo, ele foi dividido em dois: o módulo `print_transport` (só a
 > interface `PrintTransport`/`PrinterDiscovery`, zero dependências) e
-> `label_print_transport_windows` (o backend que embrulha o pacote de terceiros
+> `flutter_label_printer_windows` (o backend que embrulha o pacote de terceiros
 > `windows_printer`, primeiro canal validado — USB via spooler do Windows). O motivo é o
 > mesmo já aplicado a `label_renderer`/`label_renderer_argox`: um pacote batizado de forma
 > genérica não deveria nascer acoplado a uma implementação específica de plataforma.
 > Backends futuros (rede/TCP na porta 9100, serial) viram novos pacotes irmãos de
-> `label_print_transport_windows`, sem tocar na interface. Ver seção 4 e
+> `flutter_label_printer_windows`, sem tocar na interface. Ver seção 4 e
 > `docs/ROADMAP.md`, etapa 20.
+
+> **Consolidação (2026-10-28)**: os 21 packages descritos neste documento foram consolidados em 3 (`flutter_label_printer`, `flutter_label_designer`, `flutter_label_printer_windows`); os nomes `label_*` abaixo passam a designar **módulos** em `lib/src/<nome>/` dentro desses pacotes (ex.: `label_core` -> `flutter_label_printer/lib/src/core/`). As regras de dependência permanecem as mesmas. Ver `docs/superpowers/specs/2026-10-28-package-consolidation-design.md`.
 
 ## 3. Mapeamento em Clean Architecture
 
@@ -102,28 +104,32 @@ label_designer_workspace/            # monorepo (melos)
 ├── melos.yaml
 ├── analysis_options.yaml
 ├── packages/
-│   ├── label_core/                  # entidades, value objects, enums
-│   ├── label_expression_engine/     # parser/avaliador de {{ }}
-│   ├── label_layout_engine/         # resolve variáveis + calcula layout
-│   ├── label_serialization/         # .label (JSON) <-> LabelDocument
-│   ├── label_history/               # Command Pattern, Undo/Redo
-│   ├── label_barcode/               # geração de símbolos de barcode/QR
-│   ├── label_renderer/              # interface LabelRenderer + contratos
-│   ├── label_renderer_argox/        # PPLA / PPLB
-│   ├── label_renderer_zebra/        # ZPL II
-│   ├── label_renderer_tsc/          # TSPL
-│   ├── label_renderer_pdf/          # PDF vetorial
-│   ├── label_renderer_canvas/       # PNG / JPEG (preview e export)
-│   ├── label_widgets/               # UI kit reutilizável (sem lógica de negócio)
-│   ├── label_designer_state/        # MobX Stores
-│   ├── label_canvas/                # editor visual (CustomPainter)
-│   ├── label_property_panel/        # painel de propriedades
-│   ├── label_preview/               # widget de preview (usa layout+canvas renderer)
-│   ├── label_designer/              # composição do editor completo
-│   ├── flutter_label_designer/      # guarda-chuva: reexporta a API pública numa única dependência
-│   ├── label_print_transport/       # interface PrintTransport/PrinterDiscovery
-│   └── label_print_transport_windows/ # backend Windows (spooler/USB) de label_print_transport
+│   ├── flutter_label_printer/       # impressão: modelo, layout, serialização, renderers, contrato de transporte
+│   │   └── lib/src/
+│   │       ├── core/                # entidades, value objects, enums
+│   │       ├── expression_engine/   # parser/avaliador de {{ }}
+│   │       ├── layout_engine/       # resolve variáveis + calcula layout
+│   │       ├── serialization/       # .label (JSON) <-> LabelDocument
+│   │       ├── barcode/             # geração de símbolos de barcode/QR
+│   │       ├── renderer/            # interface LabelRenderer + contratos
+│   │       ├── renderer_argox/      # PPLA / PPLB
+│   │       ├── renderer_argox_raster/ # PPLA com imagem rasterizada
+│   │       ├── renderer_raster/     # base compartilhada dos renderers rasterizados
+│   │       ├── renderer_pdf/        # PDF vetorial
+│   │       ├── renderer_canvas/     # PNG / JPEG (preview e export)
+│   │       └── print_transport/     # interface PrintTransport/PrinterDiscovery
+│   ├── flutter_label_designer/      # editor visual; reexporta flutter_label_printer
+│   │   └── lib/src/
+│   │       ├── history/             # Command Pattern, Undo/Redo
+│   │       ├── designer_state/      # MobX Stores
+│   │       ├── widgets/             # UI kit reutilizável (sem lógica de negócio)
+│   │       ├── canvas/              # editor visual (CustomPainter)
+│   │       ├── property_panel/      # painel de propriedades
+│   │       ├── preview/             # widget de preview (layout + canvas renderer)
+│   │       └── designer/            # composição do editor completo
+│   └── flutter_label_printer_windows/ # backend Windows (spooler/USB) do contrato de transporte
 └── apps/
+    ├── label_studio/                # app interno de referência
     └── playground/                  # sandbox interno, apenas para testar engines/renderers durante o desenvolvimento — não é entregável
 ```
 
@@ -132,6 +138,8 @@ label_designer_workspace/            # monorepo (melos)
 > **Adição pós-etapa 17**: `flutter_label_designer` não estava na lista original de packages — foi adicionado depois que o guia de integração (etapa 17) deixou claro que exigir 6-8 dependências `path:`/`git:` separadas do projeto consumidor era um atrito real. Ele só reexporta símbolos de pacotes já existentes (não contém lógica própria além do barrel file) e não muda nenhuma regra de dependência interna deste diagrama — ver seção 20 e `docs/INTEGRATION.md`.
 
 ## 5. Diagrama de packages
+
+> Após a consolidação (2026-10-28), os nós abaixo são **módulos** (`lib/src/<nome>/`) dentro dos 3 packages (domínio, adapters e `history`/`designer_state`/UI distribuídos entre `flutter_label_printer` e `flutter_label_designer`); os nomes `label_*` históricos foram mantidos por clareza.
 
 ```mermaid
 graph TD

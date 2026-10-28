@@ -1,4 +1,4 @@
-# label_property_panel
+# property_panel (flutter_label_designer)
 
 Painel de propriedades do editor: edição reativa dos campos do(s)
 elemento(s) selecionado(s) no canvas.

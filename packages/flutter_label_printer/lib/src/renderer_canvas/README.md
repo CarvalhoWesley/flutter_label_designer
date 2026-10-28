@@ -1,4 +1,4 @@
-# label_renderer_canvas
+# renderer_canvas (flutter_label_printer)
 
 Renderiza um `ResolvedDocument` em PNG usando `dart:ui` — tipografia real (TTF, negrito/itálico, Google Fonts) em vez de uma fonte bitmap. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seções 11 e 16.
 

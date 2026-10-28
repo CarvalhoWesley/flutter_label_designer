@@ -1,4 +1,4 @@
-# label_renderer
+# renderer (flutter_label_printer)
 
 Contrato `LabelRenderer`/`RendererOptions` implementado por cada backend de saída (`label_renderer_canvas`, `label_renderer_pdf`, `label_renderer_argox`, ...), mais `BaseRenderer`, o Template Method reutilizado pelos renderers de comando textual. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 11.
 

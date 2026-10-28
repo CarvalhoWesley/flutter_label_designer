@@ -8,7 +8,8 @@ import 'package:flutter_label_designer/flutter_label_designer.dart' hide EdgeIns
 /// `Image.memory` preview, local to this app.
 ///
 /// This deliberately re-implements the same small pattern as
-/// `packages/label_preview` instead of depending on that package directly:
+/// `lib/src/preview` in `packages/flutter_label_designer` instead of
+/// depending on that package directly:
 /// `flutter_label_designer`'s barrel (see its doc comment) exposes exactly
 /// `LabelLayoutEngine` and `CanvasRenderer` as the intended way for a
 /// consuming app to build its own previews, and reserves `preview`

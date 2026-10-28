@@ -1,4 +1,4 @@
-# label_designer
+# designer (flutter_label_designer)
 
 Composição do editor visual completo — o pacote que o projeto do usuário
 importa para embutir "o editor de etiquetas" numa tela (ver

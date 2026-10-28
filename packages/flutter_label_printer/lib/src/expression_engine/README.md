@@ -1,4 +1,4 @@
-# label_expression_engine
+# expression_engine (flutter_label_printer)
 
 Parser e avaliador desacoplado de expressões — a linguagem por trás de `{{ preco * quantidade }}`, `{{ estoque == 0 ? "SEM ESTOQUE" : "" }}`, `{{ data.format("dd/MM/yyyy") }}`. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 10.
 

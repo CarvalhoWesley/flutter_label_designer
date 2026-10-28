@@ -41,7 +41,7 @@ class ArgoxRasterRendererOptions extends RendererOptions {
   /// "dark"/printed — see [thresholdToMonochrome].
   final int threshold;
 
-  /// Controls the printed row order — see [encodeMonochromeBmp]'s
+  /// Controls the printed row order — see `encodeMonochromeBmp`'s
   /// `reverseRowOrder` parameter, which this maps straight through to.
   ///
   /// This used to be a `flipped` switch that also sent a negative
@@ -68,11 +68,11 @@ class ArgoxRasterRendererOptions extends RendererOptions {
 
   /// How many times finer a resolution to render the label at before
   /// averaging down to the final addressable-dot grid (see
-  /// [downsampleRgba]) — proper anti-aliasing instead of point-sampling a
+  /// `downsampleRgba`) — proper anti-aliasing instead of point-sampling a
   /// render already produced at the final (low) resolution. Purely a
   /// rendering-quality knob: it never changes the final image's pixel
   /// dimensions, so it can't affect the physical size printed (unlike
-  /// [pplaDotMultiplier], which the final resolution is still pinned to).
+  /// `pplaDotMultiplier`, which the final resolution is still pinned to).
   /// Higher costs more render time for a fixed-size label — 4 is a
   /// reasonable default for label-sized images. `1` disables it (the
   /// original point-sampled behavior).
@@ -80,7 +80,7 @@ class ArgoxRasterRendererOptions extends RendererOptions {
 
   /// Whether to send the rasterized image at the print head's full native
   /// resolution (PPLA `D11`, one addressable dot per physical dot) instead
-  /// of [pplaDotMultiplier]'s DPI-based default (`D22` on a 203 DPI head —
+  /// of `pplaDotMultiplier`'s DPI-based default (`D22` on a 203 DPI head —
   /// one addressable dot per 2x2 physical block, i.e. half the linear
   /// resolution). The Datamax Class Series 2 Programmer's Manual's `D`
   /// command section is explicit that `D22` is only 203 DPI's *default*,

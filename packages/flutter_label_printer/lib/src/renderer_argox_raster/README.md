@@ -1,4 +1,4 @@
-# label_renderer_argox_raster
+# renderer_argox_raster (flutter_label_printer)
 
 Rasteriza um `ResolvedDocument` inteiro via `label_renderer_canvas` (tipografia real, código de barras, QR, formas preenchidas — o mesmo motor do Live Preview) e envia o resultado como uma imagem monocromática para uma impressora Argox, usando o comando de download de imagem do PPLA — em vez dos comandos nativos por elemento que `label_renderer_argox` usa.
 

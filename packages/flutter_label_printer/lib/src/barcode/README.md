@@ -1,4 +1,4 @@
-# label_barcode
+# barcode (flutter_label_printer)
 
 Geração de símbolos de código de barras/QR — um padrão de módulos abstrato (retângulos fracionários 0.0–1.0, sem pixels/dots/cor), consumido por `label_renderer_canvas`, `label_renderer_pdf` e qualquer renderer futuro. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 11.
 

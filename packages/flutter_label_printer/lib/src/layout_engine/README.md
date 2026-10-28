@@ -1,4 +1,4 @@
-# label_layout_engine
+# layout_engine (flutter_label_printer)
 
 Resolve um `LabelDocument` + dados de negócio em um `ResolvedDocument` — a única camada que conhece variáveis, expressões, milímetros, DPI, dots, alinhamento e rotação. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 9.
 
