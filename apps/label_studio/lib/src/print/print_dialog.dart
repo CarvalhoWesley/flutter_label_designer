@@ -66,8 +66,13 @@ class _PrintDialogState extends State<PrintDialog> {
   /// how far the printer feeds per label cycle, not where content sits
   /// within it (that's [_offsetXMm]/[_offsetYMm]). Mirrors a printer
   /// driver's own "sensor/top offset" media setting, unreachable from a
-  /// raw PPLA stream — see [ArgoxRendererOptions.feedOffsetMm].
-  double _feedOffsetMm = 2;
+  /// raw PPLA stream — see [ArgoxRendererOptions.feedOffsetMm]. Only
+  /// applies to [ArgoxMediaSensing.continuous].
+  double _feedOffsetMm = 0;
+
+  /// Gap sensing by default: the printer re-syncs on every label, so long
+  /// batches don't drift — see [ArgoxMediaSensing].
+  ArgoxMediaSensing _mediaSensing = ArgoxMediaSensing.gap;
 
   /// PPLA `<STX>I` memory module bank letter, only used by
   /// [_PrintFormat.pplaRaster] — not confirmed against real hardware yet,
@@ -317,6 +322,7 @@ class _PrintDialogState extends State<PrintDialog> {
     offsetXMm: _offsetXMm,
     offsetYMm: _offsetYMm,
     feedOffsetMm: _feedOffsetMm,
+    mediaSensing: _mediaSensing,
   );
 
   @override
@@ -501,10 +507,32 @@ class _PrintDialogState extends State<PrintDialog> {
             onChanged: (value) =>
                 setState(() => _transferType = value ?? _transferType),
           ),
+          DropdownButtonFormField<ArgoxMediaSensing>(
+            value: _mediaSensing,
+            decoration: const InputDecoration(labelText: 'Tipo de mídia'),
+            items: const [
+              DropdownMenuItem(
+                value: ArgoxMediaSensing.gap,
+                child: Text('Etiqueta com gap (espaço entre etiquetas)'),
+              ),
+              DropdownMenuItem(
+                value: ArgoxMediaSensing.blackMark,
+                child: Text('Marca preta no verso'),
+              ),
+              DropdownMenuItem(
+                value: ArgoxMediaSensing.continuous,
+                child: Text('Papel contínuo'),
+              ),
+            ],
+            onChanged: (value) =>
+                setState(() => _mediaSensing = value ?? _mediaSensing),
+          ),
           const SizedBox(height: 12),
           _offsetFields(),
-          const SizedBox(height: 12),
-          _feedOffsetField(),
+          if (_mediaSensing == ArgoxMediaSensing.continuous) ...[
+            const SizedBox(height: 12),
+            _feedOffsetField(),
+          ],
           if (format == _PrintFormat.pplaRaster) ...[
             const SizedBox(height: 12),
             _rasterFields(),

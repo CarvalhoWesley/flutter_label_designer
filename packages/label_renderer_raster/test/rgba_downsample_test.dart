@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:label_renderer_argox_raster/label_renderer_argox_raster.dart';
+import 'package:label_renderer_raster/label_renderer_raster.dart';
 import 'package:test/test.dart';
 
 /// Builds a `rawRgba`-shaped buffer (4 bytes/pixel, row-major, top-down,

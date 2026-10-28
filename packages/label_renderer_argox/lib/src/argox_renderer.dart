@@ -69,18 +69,12 @@ class ArgoxRenderer extends BaseRenderer {
         argoxOptions.transferType == ArgoxTransferType.thermalTransfer
         ? '1'
         : '0';
-    final lengthHundredthsOfInch = pplaDigits(
-      pplaHundredthsOfInch(document.heightDots, document.dpi) +
-          pplaMmToHundredthsOfInch(argoxOptions.feedOffsetMm),
-      4,
-    );
     final dotMultiplier =
         dotMultiplierOverride ?? pplaDotMultiplier(document.dpi);
 
     return '$_stx'
         'KI7$transferType$_cr' // transfer type
-        '$_stx'
-        'c$lengthHundredthsOfInch$_cr' // label length
+        '${_mediaSensingCommand(document, argoxOptions)}'
         '$_stx'
         'L$_cr' // enter label formatting mode
         'D$dotMultiplier$dotMultiplier$_cr' // dot size, per print head DPI
@@ -117,6 +111,29 @@ class ArgoxRenderer extends BaseRenderer {
         // scope for this etapa (see README) — skip rather than emit a
         // guess.
         return '';
+    }
+  }
+
+  /// `<STX>e`/`<STX>r` make the printer sync on each label's gap/mark, so
+  /// a long batch can't drift. `<STX>c####` (continuous length) feeds a
+  /// fixed distance per label instead — any gap left out of it, plus the
+  /// 1/100" rounding, accumulates label after label.
+  String _mediaSensingCommand(
+    ResolvedDocument document,
+    ArgoxRendererOptions argoxOptions,
+  ) {
+    switch (argoxOptions.mediaSensing) {
+      case ArgoxMediaSensing.gap:
+        return '${_stx}e$_cr';
+      case ArgoxMediaSensing.blackMark:
+        return '${_stx}r$_cr';
+      case ArgoxMediaSensing.continuous:
+        final lengthHundredthsOfInch = pplaDigits(
+          pplaHundredthsOfInch(document.heightDots, document.dpi) +
+              pplaMmToHundredthsOfInch(argoxOptions.feedOffsetMm),
+          4,
+        );
+        return '${_stx}c$lengthHundredthsOfInch$_cr';
     }
   }
 
