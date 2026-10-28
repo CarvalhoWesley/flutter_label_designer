@@ -5,7 +5,7 @@ import 'dart:typed_data';
 /// (PNG/JPEG/etc, whatever `dart:ui.instantiateImageCodec` accepts), or
 /// `null` if this resolver doesn't know how to fetch that reference.
 ///
-/// `label_renderer_canvas` deliberately does no file or network I/O
+/// `renderer_canvas` deliberately does no file or network I/O
 /// itself — a `source` might be a file path, a URL, an asset key or a
 /// data URI, and only the app knows which apply and how to reach them
 /// (file I/O isn't available on Flutter Web at all). [defaultImageResolver]

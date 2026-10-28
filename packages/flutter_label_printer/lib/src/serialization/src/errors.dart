@@ -1,6 +1,6 @@
 /// Thrown when decoding a `.label` document whose `version` is newer than
 /// this package knows how to read (the app should upgrade its dependency
-/// on `label_serialization` instead of guessing at the newer schema).
+/// on `serialization` instead of guessing at the newer schema).
 class UnsupportedSchemaVersionException implements Exception {
   UnsupportedSchemaVersionException({
     required this.version,

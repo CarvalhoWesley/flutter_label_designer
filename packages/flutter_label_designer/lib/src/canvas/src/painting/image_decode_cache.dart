@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:ui' as ui;
 
 /// Decodes and caches `data:` URI images referenced by
-/// [ImageElement.source] so `label_canvas`'s editable rendering can show a
+/// [ImageElement.source] so `canvas`'s editable rendering can show a
 /// real preview instead of a placeholder for self-contained images — this
 /// is still zero file/network I/O (the bytes are already inline in the
 /// document), so it doesn't cross the "editor never resolves external

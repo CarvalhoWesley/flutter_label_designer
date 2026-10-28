@@ -9,12 +9,12 @@ import '../logic/sample_data.dart';
 /// Which view the editor's right-hand panel currently shows.
 enum RightPanelTab { properties, preview }
 
-/// The editor's right sidebar: toggles between `label_property_panel`
-/// (edit the selection) and `label_preview` (see the document as it would
+/// The editor's right sidebar: toggles between `property_panel`
+/// (edit the selection) and `preview` (see the document as it would
 /// actually print). Both read the same [documentStore], so switching tabs
 /// never shows stale data.
 ///
-/// `label_preview` isn't MobX-aware (see its own doc comment) — this is
+/// `preview` isn't MobX-aware (see its own doc comment) — this is
 /// exactly the composition point responsible for observing
 /// [documentStore] and passing the current `LabelDocument` value down to
 /// it on every change (`docs/ARCHITECTURE.md` section 16).

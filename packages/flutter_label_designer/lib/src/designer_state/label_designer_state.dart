@@ -2,8 +2,8 @@
 /// and viewport of the editor. See `docs/ARCHITECTURE.md` section 14.
 ///
 /// Pure Dart — no widgets. Each store is a plain MobX `Store`, testable
-/// with `package:mobx` + `package:test` alone; `label_canvas` and
-/// `label_property_panel` wrap them in `Observer()` to react to changes.
+/// with `package:mobx` + `package:test` alone; `canvas` and
+/// `property_panel` wrap them in `Observer()` to react to changes.
 library;
 
 export 'src/stores/canvas_store.dart';

@@ -30,7 +30,7 @@ class ArgoxRenderer extends BaseRenderer {
       clearMemoryCommand() + labelFormatHeader(document, options);
 
   /// `<STX>qA` — clears the printer's RAM image buffer. Split out from
-  /// [header] so a raster-mode caller (`label_renderer_argox_raster`) can
+  /// [header] so a raster-mode caller (`renderer_argox_raster`) can
   /// send this, then its own `<STX>I` image-download command, then
   /// [labelFormatHeader] — the image download is a system-level command
   /// and must run before `<STX>L` enters label-formatting mode, but after
@@ -46,7 +46,7 @@ class ArgoxRenderer extends BaseRenderer {
   /// [dotMultiplierOverride] replaces [pplaDotMultiplier]'s DPI-based
   /// default for just the `D` (dot size) command — a raster-only job has
   /// no barcode module-width field (the one other place the multiplier
-  /// matters) to desync, so `label_renderer_argox_raster` uses this to
+  /// matters) to desync, so `renderer_argox_raster` uses this to
   /// request `D11` (full print-head resolution) even on a 203 DPI head
   /// that would otherwise default to `D22`, per the manual: "This command
   /// is used to change the size of a printed dot, hence the print

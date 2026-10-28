@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// every keystroke via [onChanged] rather than waiting for submit —
 /// callers that need undo coalescing debounce on their own end.
 ///
-/// `label_designer`'s document-level "delete selected element" shortcut
+/// `designer`'s document-level "delete selected element" shortcut
 /// (Delete/Backspace) guards itself against firing while a text field
 /// like this one has focus — see `_LabelDesignerState._isTextFieldFocused`
 /// — so this widget itself doesn't need to intercept those keys.

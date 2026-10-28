@@ -58,13 +58,13 @@ abstract class HistoryStoreBase with Store {
     _syncFlags();
   }
 
-  /// Convenience wrapper: decodes [json] via [label_serialization] and
+  /// Convenience wrapper: decodes [json] via [serialization] and
   /// loads the result, resetting history.
   void loadFromJson(String json) => loadDocument(_codec.decode(json));
 
   /// Moves the element identified by [elementId] from [from] to [to] as
-  /// one undo step. `label_canvas` calls this instead of constructing a
-  /// [MoveCommand] itself, so it never needs to depend on `label_history`
+  /// one undo step. `canvas` calls this instead of constructing a
+  /// [MoveCommand] itself, so it never needs to depend on `history`
   /// directly.
   void moveElement({
     required String elementId,
@@ -103,7 +103,7 @@ abstract class HistoryStoreBase with Store {
   }) => execute(ResizeCommand(elementId: elementId, from: from, to: to));
 
   /// Resizes AND (if the anchor moved) repositions an element as a single
-  /// undo step. `label_canvas` calls this — not [resizeElement] — when
+  /// undo step. `canvas` calls this — not [resizeElement] — when
   /// dragging a resize handle: keeping the opposite edge visually fixed on
   /// screen means `position` changes along with `size`, and the user
   /// expects one undo to revert the whole drag, not two.
@@ -144,7 +144,7 @@ abstract class HistoryStoreBase with Store {
       execute(DeleteCommand.capture(_documentStore.document, elementId));
 
   /// Replaces the whole top-level element list as a single undo step —
-  /// used by `label_designer` for operations that restructure the element
+  /// used by `designer` for operations that restructure the element
   /// list itself rather than editing one element's fields: grouping/
   /// ungrouping (replacing N siblings with one `GroupElement`, or vice
   /// versa) and reordering `zIndex` for bring-to-front/send-to-back.
@@ -206,7 +206,7 @@ abstract class HistoryStoreBase with Store {
   }
 
   /// Convenience wrapper: encodes the current document via
-  /// [label_serialization]. Writing the result to disk is the consuming
+  /// [serialization]. Writing the result to disk is the consuming
   /// app's responsibility (see `docs/ARCHITECTURE.md` section 20).
   String encodeToJson() => _codec.encode(_documentStore.document);
 

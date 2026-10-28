@@ -183,7 +183,7 @@ class LabelLayoutEngine {
     final heightDots = dpi.mmToDots(element.size.height);
 
     // A LineElement's "size" is a (dx, dy) delta to its end point (see
-    // label_core's LineElement doc comment), so a purely horizontal or
+    // core's LineElement doc comment), so a purely horizontal or
     // vertical line legitimately resolves one axis to 0 — only a
     // zero-length line (both axes 0) is invalid. Every other element type
     // is a box and must be positive on both axes.

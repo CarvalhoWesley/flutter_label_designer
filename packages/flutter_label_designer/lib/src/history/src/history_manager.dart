@@ -5,7 +5,7 @@ import 'command.dart';
 /// Owns the undo/redo stacks and the current [LabelDocument] produced by
 /// replaying [Command]s on top of the document it was created with.
 ///
-/// Pure Dart, no MobX: `label_designer_state`'s `HistoryStore` wraps this
+/// Pure Dart, no MobX: `designer_state`'s `HistoryStore` wraps this
 /// class to expose it reactively to the UI.
 class HistoryManager {
   HistoryManager(LabelDocument document) : _document = document;

@@ -1,4 +1,4 @@
-/// Rasteriza um `ResolvedDocument` inteiro via `label_renderer_raster` e
+/// Rasteriza um `ResolvedDocument` inteiro via `renderer_raster` e
 /// envia como imagem monocromática para uma impressora Argox via o comando
 /// de download de imagem do PPLA — ver `ppla_raster_language.dart` e o
 /// README deste pacote.

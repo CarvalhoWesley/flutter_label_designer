@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 /// A width-constrained, resizable and collapsible side panel — the
-/// building block behind `label_designer`'s layers and properties/preview
+/// building block behind `designer`'s layers and properties/preview
 /// sidebars (see `docs/ARCHITECTURE.md` section 7: a "componente visual
-/// puro" belongs in this package, not in `label_designer` itself).
+/// puro" belongs in this package, not in `designer` itself).
 ///
 /// [width]/[onWidthChanged] and [collapsed]/[onCollapsedChanged] are
 /// externally controlled — this widget holds no state of its own beyond

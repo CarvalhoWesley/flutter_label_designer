@@ -11,7 +11,7 @@ import 'package:flutter_label_printer/flutter_label_printer.dart';
 /// relative to the group's own, which already moved.
 ///
 /// [LabelElement] is `sealed` with no shared `copyWith`, so this is
-/// necessarily an exhaustive switch — see `label_property_panel`'s
+/// necessarily an exhaustive switch — see `property_panel`'s
 /// `common_element_updates.dart` for the same shape applied to single-field
 /// edits instead of a full clone.
 LabelElement cloneElement(

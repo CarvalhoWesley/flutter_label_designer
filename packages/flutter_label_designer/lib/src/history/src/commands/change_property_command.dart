@@ -6,10 +6,10 @@ import '../element_tree.dart';
 /// Changes a single, type-specific property of the element identified by
 /// [elementId] (e.g. `TextElement.content`, `RectangleElement.cornerRadius`).
 ///
-/// [label_core]'s [LabelElement] subtypes each have their own `copyWith`
+/// [core]'s [LabelElement] subtypes each have their own `copyWith`
 /// with different extra fields, so there is no single generic "set
 /// property by name" operation. Instead, the caller (typically
-/// `label_designer_state`'s `PropertyStore`, which already knows the
+/// `designer_state`'s `PropertyStore`, which already knows the
 /// concrete element type being edited) supplies [apply]: a closure that
 /// knows how to write [T] onto that concrete type.
 class ChangePropertyCommand<T> implements Command {

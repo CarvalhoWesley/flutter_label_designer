@@ -2,7 +2,7 @@ part of 'label_element.dart';
 
 /// 1D barcode symbologies supported by [BarcodeElement].
 ///
-/// New symbologies are added here and handled by `label_barcode`; the
+/// New symbologies are added here and handled by `barcode`; the
 /// element model itself stays agnostic of how each is encoded.
 enum BarcodeSymbology { ean13, ean8, code39, code128, upc, itf, codabar }
 

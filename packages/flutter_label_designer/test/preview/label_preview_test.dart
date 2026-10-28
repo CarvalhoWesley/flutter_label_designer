@@ -90,7 +90,7 @@ void main() {
       // and times out. The real pipeline (LabelLayoutEngine ->
       // CanvasRenderer -> valid PNG bytes) is exercised without any widget
       // pumping in `setUpAll` above, and end-to-end in
-      // `label_renderer_canvas`'s tests.
+      // `renderer_canvas`'s tests.
       final renderer = _ControlledRenderer();
       await tester.pumpWidget(
         wrap(LabelPreview(document: _document(), renderer: renderer)),

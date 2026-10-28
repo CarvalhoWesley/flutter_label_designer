@@ -6,8 +6,8 @@ import 'resolved_element.dart';
 /// expression and unit already resolved to dots, ready for a
 /// `LabelRenderer` to convert to a printer language, PDF or image.
 ///
-/// Renderers depend only on this type — never on `label_layout_engine`
-/// itself — which is what lets `label_core` stay the single shared
+/// Renderers depend only on this type — never on `layout_engine`
+/// itself — which is what lets `core` stay the single shared
 /// contract between the two sides (dependency inversion; see
 /// `docs/ARCHITECTURE.md` section 9).
 class ResolvedDocument extends Equatable {

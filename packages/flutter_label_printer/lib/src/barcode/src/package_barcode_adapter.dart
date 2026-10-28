@@ -7,7 +7,7 @@ import 'symbol.dart';
 
 /// Adapts a `package:barcode` [pkg.Barcode] to our own [BarcodeEncoder].
 ///
-/// This is the **only** file in `label_barcode` that imports
+/// This is the **only** file in `barcode` that imports
 /// `package:barcode` — every other file, and every consumer of this
 /// package, only ever sees [BarcodeEncoder]/[BarcodeSymbol]. Swapping the
 /// underlying implementation (e.g. for a hand-written encoder) later only
@@ -57,7 +57,7 @@ BarcodeSymbol _encodeWith(pkg.Barcode barcode, String data) {
   return BarcodeSymbol(modules: modules);
 }
 
-/// One [BarcodeEncoder] per [BarcodeSymbology] declared in `label_core`.
+/// One [BarcodeEncoder] per [BarcodeSymbology] declared in `core`.
 final Map<BarcodeSymbology, BarcodeEncoder> linearBarcodeEncoders = {
   BarcodeSymbology.ean13: PackageBarcodeEncoder(pkg.Barcode.ean13()),
   BarcodeSymbology.ean8: PackageBarcodeEncoder(pkg.Barcode.ean8()),
@@ -72,7 +72,7 @@ final Map<BarcodeSymbology, BarcodeEncoder> linearBarcodeEncoders = {
 const QrCodeEncoder qrCodeEncoder = PackageBarcodeQrEncoder();
 
 /// Available for future 2D `LabelElement` types (see
-/// `docs/ROADMAP.md`) — not wired to any element yet, since `label_core`
+/// `docs/ROADMAP.md`) — not wired to any element yet, since `core`
 /// currently only models QR Code among 2D symbologies.
 final BarcodeEncoder pdf417BarcodeEncoder = PackageBarcodeEncoder(
   pkg.Barcode.pdf417(),

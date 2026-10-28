@@ -50,14 +50,14 @@ class _ClearSelectionIntent extends Intent {
 
 /// Composition of the full visual editor: toolbar, layers panel, canvas,
 /// and a right-hand properties/preview panel, wired to
-/// `label_designer_state` and driven by keyboard shortcuts (see
+/// `designer_state` and driven by keyboard shortcuts (see
 /// `docs/ARCHITECTURE.md` sections 7 and 20).
 ///
-/// Owns every `label_designer_state` store for the lifetime of the
+/// Owns every `designer_state` store for the lifetime of the
 /// widget, built from [document] once in [State.initState]. Doesn't know
 /// how to save to disk or print — [onSave] just hands the current
 /// [LabelDocument] to whoever embeds this widget; never imports any
-/// `label_renderer_*` for a physical printer.
+/// `renderer_*` for a physical printer.
 class LabelDesigner extends StatefulWidget {
   const LabelDesigner({super.key, required this.document, this.onSave});
 

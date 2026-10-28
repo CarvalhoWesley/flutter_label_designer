@@ -8,7 +8,7 @@ import 'package:flutter_label_printer/flutter_label_printer.dart';
 ///
 /// Scoped over the whole top-level element list rather than per-layer:
 /// `zIndex` is documented as "relative to siblings on the same layer", but
-/// `label_canvas`'s painter currently sorts purely by `zIndex` — see
+/// `canvas`'s painter currently sorts purely by `zIndex` — see
 /// `docs/ARCHITECTURE.md` section 8. Reassigning across all elements keeps
 /// that painter's ordering correct; a per-layer-scoped version can follow
 /// once cross-layer z-fighting actually matters.

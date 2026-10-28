@@ -61,7 +61,7 @@ void main() {
     // DocumentMetadata.toJson() always writes UTC timestamps, so the
     // fixture must already be UTC-flagged for the round-tripped document
     // to compare equal (DateTime.== requires matching zone flags, not just
-    // the same instant) — see label_serialization's codec tests.
+    // the same instant) — see serialization's codec tests.
     final now = DateTime.utc(2026, 7, 2);
     final document = LabelDocument.blank(name: 'Doc').copyWith(
       elements: [_rect('a')],

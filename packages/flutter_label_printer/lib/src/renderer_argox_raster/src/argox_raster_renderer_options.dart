@@ -63,7 +63,7 @@ class ArgoxRasterRendererOptions extends RendererOptions {
   /// upside down *and* mirrored left-right at the same time (equivalent to
   /// a 180° rotation). Confirmed on real hardware: `true` (the default) is
   /// what fixed the left-right mirroring — see
-  /// `label_renderer_argox_raster`'s README.
+  /// `renderer_argox_raster`'s README.
   final bool mirrorHorizontal;
 
   /// How many times finer a resolution to render the label at before

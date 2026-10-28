@@ -32,7 +32,7 @@
 
 Framework Flutter para criação, edição e impressão de etiquetas térmicas — um "Figma para etiquetas", desacoplado de qualquer impressora específica.
 
-**Modelo de consumo**: este workspace produz **pacotes Dart/Flutter puros** (sem código nativo, não são "plugins" no sentido de platform channel), publicados via `path:`/`git:` (ou futuramente `pub.dev`). Não há aplicativo standalone entregável — o consumidor é o **projeto Flutter já existente do usuário**, que declara os pacotes necessários no seu `pubspec.yaml` (tipicamente `label_designer` para o editor visual e um ou mais `label_renderer_*` para impressão) e os utiliza como qualquer outra dependência. `apps/playground` existe só como ferramenta interna de desenvolvimento/teste deste workspace — não é código destinado ao usuário final.
+**Modelo de consumo**: este workspace produz **pacotes Dart/Flutter puros** (sem código nativo, não são "plugins" no sentido de platform channel), publicados via `path:`/`git:` (ou futuramente `pub.dev`). Não há aplicativo standalone entregável — o consumidor é o **projeto Flutter já existente do usuário**, que declara os pacotes necessários no seu `pubspec.yaml` (tipicamente `flutter_label_designer` para o editor visual, ou apenas `flutter_label_printer` para impressão sem editor, mais `flutter_label_printer_windows` para o spooler do Windows) e os utiliza como qualquer outra dependência. `apps/playground` existe só como ferramenta interna de desenvolvimento/teste deste workspace — não é código destinado ao usuário final.
 
 Fluxo macro (imutável, é a espinha dorsal de todo o sistema):
 
@@ -731,29 +731,14 @@ dependencies:
     path: ../label_designer_workspace/packages/flutter_label_designer
 ```
 
-Quem quiser controle fino (por exemplo, um serviço headless que só precisa de um renderer, sem o editor visual) pode continuar declarando os pacotes individuais em vez do guarda-chuva:
+Quem não precisa do editor visual (por exemplo, um serviço headless que só precisa de um renderer) pode depender só de `flutter_label_printer`, e acrescentar `flutter_label_printer_windows` para enviar bytes ao spooler do Windows. O transporte Windows **nunca** entra em `flutter_label_designer` — transporte é o passo que efetivamente fala com o sistema operacional/hardware, então só o app que realmente imprime declara essa dependência:
 
 ```yaml
 dependencies:
-  label_designer:
-    path: ../label_designer_workspace/packages/label_designer
-  label_renderer_argox:
-    path: ../label_designer_workspace/packages/label_renderer_argox
-  # + label_renderer_zebra, label_renderer_tsc, label_renderer_pdf conforme a impressora usada
-```
-
-`label_print_transport` (e seus backends, ex. `label_print_transport_windows`) seguem a
-mesma regra do controle fino: **nunca** entram em `flutter_label_designer` — diferente de um
-`label_renderer_*` (saída pura Dart), transporte é o passo que efetivamente fala com o
-sistema operacional/hardware, então só o app que realmente imprime declara essas
-dependências:
-
-```yaml
-dependencies:
-  label_print_transport:
-    path: ../label_designer_workspace/packages/label_print_transport
-  label_print_transport_windows:
-    path: ../label_designer_workspace/packages/label_print_transport_windows
+  flutter_label_printer:
+    path: ../label_designer_workspace/packages/flutter_label_printer
+  flutter_label_printer_windows:
+    path: ../label_designer_workspace/packages/flutter_label_printer_windows
 ```
 
 Ver o passo a passo completo em [`docs/INTEGRATION.md`](./INTEGRATION.md).

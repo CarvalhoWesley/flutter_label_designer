@@ -5,7 +5,7 @@ import 'rotate_vector.dart';
 
 /// The position/size/rotation of one element's bounding box, with helpers
 /// for hit-testing and locating its resize/rotation handles — the pure
-/// geometry `label_canvas`'s painter and gesture handling share.
+/// geometry `canvas`'s painter and gesture handling share.
 class ElementBounds {
   const ElementBounds({
     required this.position,

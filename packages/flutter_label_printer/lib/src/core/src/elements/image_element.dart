@@ -7,7 +7,7 @@ enum ImageFit { contain, cover, fill, fitWidth, fitHeight, none }
 /// A raster image placed on the label.
 ///
 /// [source] is a reference the app resolves to bytes (asset path, file
-/// path, URL or `{{ expression }}` for data-driven images) — `label_core`
+/// path, URL or `{{ expression }}` for data-driven images) — `core`
 /// does not load or decode image bytes itself.
 class ImageElement extends LabelElement {
   const ImageElement({

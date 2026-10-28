@@ -10,7 +10,7 @@ part 'property_store.g.dart';
 
 /// Derives the editable element(s) for the current selection and
 /// dispatches [ChangePropertyCommand]s through [HistoryStore] to edit
-/// them, so every property edit made in `label_property_panel` is
+/// them, so every property edit made in `property_panel` is
 /// undo-able by construction.
 class PropertyStore = PropertyStoreBase with _$PropertyStore;
 
@@ -42,7 +42,7 @@ abstract class PropertyStoreBase with Store {
 
   /// Dispatches a [ChangePropertyCommand] for [elementId]. The caller
   /// supplies [apply] because each [LabelElement] subtype has its own
-  /// `copyWith` — see `label_history`'s `ChangePropertyCommand` docs.
+  /// `copyWith` — see `history`'s `ChangePropertyCommand` docs.
   void changeProperty<T>({
     required String elementId,
     required T oldValue,
@@ -61,7 +61,7 @@ abstract class PropertyStoreBase with Store {
 
   /// Applies the same kind of property edit across every id in
   /// [oldValues]/[newValues] as a single undo step — used by
-  /// `label_property_panel` when editing a shared property (e.g. opacity,
+  /// `property_panel` when editing a shared property (e.g. opacity,
   /// visible) across a multi-element selection, mirroring
   /// `HistoryStore.moveElements`.
   ///

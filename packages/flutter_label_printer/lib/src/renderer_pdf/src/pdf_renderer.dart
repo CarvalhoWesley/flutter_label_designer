@@ -10,10 +10,10 @@ import 'pdf_renderer_options.dart';
 
 /// Renders a [ResolvedDocument] to vectorial PDF bytes using `package:pdf`
 /// — real embedded fonts and vector paths, no rasterization, unlike
-/// `label_renderer_canvas`.
+/// `renderer_canvas`.
 ///
 /// `package:pdf` brings its own font engine and drawing primitives in pure
-/// Dart (no `dart:ui`), so — unlike `label_renderer_canvas` — this package
+/// Dart (no `dart:ui`), so — unlike `renderer_canvas` — this package
 /// needs no Flutter dependency and is tested with `dart test`. See
 /// `docs/ARCHITECTURE.md` section 11 and `docs/ROADMAP.md` etapa 15.
 class PdfRenderer implements LabelRenderer {

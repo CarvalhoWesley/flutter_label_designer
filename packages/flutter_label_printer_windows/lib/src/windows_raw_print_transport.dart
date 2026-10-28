@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter_label_printer/flutter_label_printer.dart';
 import 'package:windows_printer/windows_printer.dart';
 
-/// Sends raw bytes (e.g. PPLA/PPLB from `label_renderer_argox`) straight to
+/// Sends raw bytes (e.g. PPLA/PPLB from `renderer_argox`) straight to
 /// a Windows printer's spooler, bypassing Windows' own rendering — the
 /// printer receives exactly the bytes it was given. `target` is a Windows
 /// printer name; `null` uses the system default printer.

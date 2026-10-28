@@ -1,7 +1,7 @@
 /// Parser desacoplado de expressões (`{{ preco * quantidade }}`,
 /// `{{ estoque == 0 ? "SEM ESTOQUE" : "" }}`, `{{ data.format("dd/MM/yyyy") }}`).
 ///
-/// Pacote Dart puro — sem dependência de `label_core`, Flutter ou
+/// Pacote Dart puro — sem dependência de `core`, Flutter ou
 /// impressoras. Ver `docs/ARCHITECTURE.md` seção 10.
 library;
 

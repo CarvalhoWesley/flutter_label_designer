@@ -4,12 +4,12 @@ import 'ppla_raster_language.dart';
 
 /// Renders a [ResolvedDocument] to PPLA bytes by rasterizing the *entire*
 /// label (real typography, filled shapes, QR codes — see
-/// `label_renderer_raster`) and sending it as a single monochrome image,
+/// `renderer_raster`) and sending it as a single monochrome image,
 /// instead of one native PPLA command per element like `ArgoxRenderer`.
 ///
 /// This exists because PPLA's native text/shape commands have real,
 /// unavoidable limits (a fixed internal font ladder, no fill, no true
-/// ellipse, no QR) — see `label_renderer_argox`'s README. Rasterizing
+/// ellipse, no QR) — see `renderer_argox`'s README. Rasterizing
 /// sidesteps all of that at the cost of a bigger job (an image instead of
 /// compact commands) and losing the printer's own crisp native font
 /// rendering. Both renderers stay available side by side.

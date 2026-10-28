@@ -7,7 +7,7 @@ import 'package:flutter_label_printer/src/renderer_pdf/label_renderer_pdf.dart';
 import 'package:test/test.dart';
 
 /// Full-pipeline smoke test: LabelDocument -> LabelLayoutEngine ->
-/// PdfRenderer -> PDF bytes. Mirrors label_renderer_canvas's
+/// PdfRenderer -> PDF bytes. Mirrors renderer_canvas's
 /// end_to_end_test.dart with the same sample label, so the two renderers
 /// are exercised against an equivalent document. See docs/ROADMAP.md,
 /// etapa 15.

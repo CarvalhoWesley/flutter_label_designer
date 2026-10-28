@@ -1,8 +1,8 @@
 /// Reusable UI kit for the editor: buttons, color picker, rulers and a
 /// semantic icon set. See `docs/ARCHITECTURE.md` section 7.
 ///
-/// Purely presentational — nothing here imports `label_core` or
-/// `label_designer_state`. Widgets take plain values and callbacks; owning
+/// Purely presentational — nothing here imports `core` or
+/// `designer_state`. Widgets take plain values and callbacks; owning
 /// state (a `LabelDocument`, a store) is always the caller's job.
 library;
 

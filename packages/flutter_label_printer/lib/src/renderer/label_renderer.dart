@@ -1,6 +1,6 @@
 /// O contrato `LabelRenderer`/`RendererOptions` implementado por cada
 /// backend de saída, mais `BaseRenderer`, o Template Method reutilizado
-/// pelos renderers de comando textual (`label_renderer_argox`, `_zebra`,
+/// pelos renderers de comando textual (`renderer_argox`, `_zebra`,
 /// `_tsc`). Ver `docs/ARCHITECTURE.md` seção 11.
 ///
 /// Pacote Dart puro — nenhum renderer concreto de backend específico mora

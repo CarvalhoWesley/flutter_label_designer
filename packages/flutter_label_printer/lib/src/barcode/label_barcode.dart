@@ -1,6 +1,6 @@
 /// Geração de símbolos de código de barras/QR — um padrão de módulos
-/// abstrato, sem desenhar nada. Consumido por `label_renderer_canvas`,
-/// `label_renderer_pdf` e qualquer renderer futuro. Ver
+/// abstrato, sem desenhar nada. Consumido por `renderer_canvas`,
+/// `renderer_pdf` e qualquer renderer futuro. Ver
 /// `docs/ARCHITECTURE.md` seção 11.
 ///
 /// Adapta `package:barcode` (Adapter pattern) atrás de [BarcodeEncoder]/

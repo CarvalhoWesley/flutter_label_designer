@@ -4,7 +4,7 @@ import 'hex_color.dart';
 import 'label_color_swatch.dart';
 
 /// A grid of preset color swatches plus a hex text field for a custom
-/// value — used by `label_property_panel` to edit fill/stroke/text colors.
+/// value — used by `property_panel` to edit fill/stroke/text colors.
 ///
 /// Purely presentational: [color] and [onColorChanged] are the only state,
 /// supplied and owned by the caller (no `LabelDocument`/store knowledge).

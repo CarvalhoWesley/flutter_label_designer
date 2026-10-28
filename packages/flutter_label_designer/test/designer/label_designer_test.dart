@@ -301,7 +301,7 @@ void main() {
         // The element must still be selected — the properties panel keeps
         // showing its fields instead of falling back to the "no
         // selection" placeholder, proving the key never reached
-        // label_designer's document-level delete shortcut.
+        // designer's document-level delete shortcut.
         expect(find.text('Geometria'), findsOneWidget);
         expect(
           find.text('Selecione um elemento para editar suas propriedades.'),

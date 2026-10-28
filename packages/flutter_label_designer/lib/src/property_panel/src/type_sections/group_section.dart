@@ -5,7 +5,7 @@ import '../widgets/property_panel_section.dart';
 
 /// Type-specific fields for [GroupElement]: just a read-only summary.
 /// Editing a group's own properties (position, size, rotation, ...) cascades
-/// to its children at edit time in `label_canvas`, not here — this panel
+/// to its children at edit time in `canvas`, not here — this panel
 /// only edits the group's own [LabelElement] fields via [GeometrySection]/
 /// [GeneralSection], same as any other element.
 class GroupSection extends StatelessWidget {

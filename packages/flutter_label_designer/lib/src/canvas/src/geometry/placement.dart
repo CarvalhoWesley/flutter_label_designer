@@ -46,7 +46,7 @@ class _Frame {
 /// leaf elements actually drawn, each carrying its ABSOLUTE center/
 /// rotation composed through every ancestor group.
 ///
-/// Deliberately mirrors `label_layout_engine`'s internal group-composition
+/// Deliberately mirrors `layout_engine`'s internal group-composition
 /// algorithm (see [rotateVector]'s doc comment for why this is a small,
 /// intentional duplication rather than a dependency on that package).
 /// Hidden elements (or elements on a hidden layer) are skipped entirely.
@@ -57,7 +57,7 @@ class _Frame {
 /// why a `Command` is only dispatched once, on gesture end.
 ///
 /// Sorted by zIndex ascending (paint back-to-front), matching
-/// `label_renderer_canvas`'s convention — zIndex is compared globally
+/// `renderer_canvas`'s convention — zIndex is compared globally
 /// across the whole flattened list, not just among siblings, so a group is
 /// purely an organizational container, not a separate stacking context.
 List<PlacedElement> paintOrder(

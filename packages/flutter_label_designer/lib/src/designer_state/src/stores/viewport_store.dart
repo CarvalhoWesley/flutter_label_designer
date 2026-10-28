@@ -5,7 +5,7 @@ import 'package:mobx/mobx.dart';
 
 part 'viewport_store.g.dart';
 
-/// Zoom, pan, grid, snap and ruler state for `label_canvas`.
+/// Zoom, pan, grid, snap and ruler state for `canvas`.
 ///
 /// Deliberately not routed through [HistoryStore]: the viewport is a
 /// property of the *editing session*, not of the [LabelDocument] itself —

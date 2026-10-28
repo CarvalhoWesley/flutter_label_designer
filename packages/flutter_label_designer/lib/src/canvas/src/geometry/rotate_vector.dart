@@ -4,10 +4,10 @@ import 'package:flutter_label_printer/flutter_label_printer.dart';
 
 /// Rotates [vector] by [degrees] clockwise around the origin `(0, 0)`.
 ///
-/// Deliberately mirrors `label_layout_engine`'s internal
+/// Deliberately mirrors `layout_engine`'s internal
 /// `rotateVector` (same formula, same convention) so a `GroupElement`'s
 /// children land in the same place on the canvas as they will when
-/// printed — without `label_canvas` depending on `label_layout_engine`,
+/// printed — without `canvas` depending on `layout_engine`,
 /// which the architecture forbids (a renderer/editor never recomputes
 /// layout via a different engine; this is pure geometry, not layout
 /// resolution, so a small intentional duplication here is correct).

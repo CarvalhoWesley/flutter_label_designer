@@ -13,9 +13,9 @@ import 'painting/image_decode_cache.dart';
 import 'painting/label_canvas_painter.dart';
 
 /// The editor's visual canvas: page, grid, elements, selection handles and
-/// rulers, wired to `label_designer_state`'s stores. Draws a direct,
-/// editable representation of the model — never `label_layout_engine`,
-/// never any `label_renderer_*` (see `docs/ARCHITECTURE.md` section 15).
+/// rulers, wired to `designer_state`'s stores. Draws a direct,
+/// editable representation of the model — never `layout_engine`,
+/// never any `renderer_*` (see `docs/ARCHITECTURE.md` section 15).
 ///
 /// Every gesture — select, move, resize, rotate, marquee, zoom, pan —
 /// goes through a [CanvasController], so the interaction logic itself is

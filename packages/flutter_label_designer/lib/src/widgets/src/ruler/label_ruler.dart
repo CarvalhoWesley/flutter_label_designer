@@ -5,7 +5,7 @@ import 'ruler_ticks.dart';
 /// Which edge of the canvas a [LabelRuler] is measuring.
 enum RulerAxis { horizontal, vertical }
 
-/// A horizontal or vertical millimeter ruler for `label_canvas`, showing
+/// A horizontal or vertical millimeter ruler for `canvas`, showing
 /// tick marks at [minorIntervalMm] and numeric labels at
 /// [majorIntervalMm], positioned by [pixelsPerMm] (zoom) and
 /// [originOffset] (where 0mm currently sits, i.e. pan).

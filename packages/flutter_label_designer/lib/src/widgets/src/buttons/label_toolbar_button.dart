@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 /// An icon-only toolbar button with a tooltip and an optional "selected"
-/// (toggled-on) visual state — the building block for `label_designer`'s
-/// toolbar and `label_property_panel`'s alignment/style toggles.
+/// (toggled-on) visual state — the building block for `designer`'s
+/// toolbar and `property_panel`'s alignment/style toggles.
 class LabelToolbarButton extends StatelessWidget {
   const LabelToolbarButton({
     super.key,

@@ -9,7 +9,7 @@ import 'element_painter.dart';
 import 'image_decode_cache.dart';
 
 /// Everything [LabelCanvasPainter] needs, as a plain snapshot — the
-/// `label_canvas` widget reads this out of the MobX stores inside an
+/// `canvas` widget reads this out of the MobX stores inside an
 /// `Observer` build and hands it down, so the painter itself has no store
 /// dependency and is trivially constructible in tests.
 class CanvasPaintData {
@@ -60,8 +60,8 @@ class CanvasPaintData {
 
 /// Draws the page, grid, every element, the current selection's outline +
 /// handles, snap guides and an in-progress marquee rectangle — the direct,
-/// editable rendering `label_canvas` owns (never `label_layout_engine` /
-/// `label_renderer_*`; see `docs/ARCHITECTURE.md` section 15).
+/// editable rendering `canvas` owns (never `layout_engine` /
+/// `renderer_*`; see `docs/ARCHITECTURE.md` section 15).
 class LabelCanvasPainter extends CustomPainter {
   LabelCanvasPainter(this.data);
 

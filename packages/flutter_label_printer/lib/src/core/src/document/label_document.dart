@@ -9,7 +9,7 @@ import 'page_config.dart';
 
 /// Current `.label` JSON schema version produced by [LabelDocument.toJson].
 ///
-/// `label_serialization` uses this to decide whether an older file needs
+/// `serialization` uses this to decide whether an older file needs
 /// migration before being decoded into a [LabelDocument].
 const int labelDocumentSchemaVersion = 1;
 

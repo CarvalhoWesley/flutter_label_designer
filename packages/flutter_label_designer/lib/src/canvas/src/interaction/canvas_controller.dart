@@ -13,7 +13,7 @@ import 'hit_test.dart';
 
 enum _DragKind { move, resize, rotate, marquee }
 
-/// The gesture state machine behind `label_canvas`: translates raw pointer
+/// The gesture state machine behind `canvas`: translates raw pointer
 /// events (already converted to on-screen pixels by the widget) into
 /// store updates.
 ///
@@ -310,7 +310,7 @@ class CanvasController {
     }
 
     if (_findElement(elementId) is CircleElement) {
-      // CircleElement must stay square — label_core deliberately leaves
+      // CircleElement must stay square — core deliberately leaves
       // this to the canvas (see that class's doc comment).
       result = ResizeResult(
         position: result.position,

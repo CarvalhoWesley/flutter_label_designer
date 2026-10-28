@@ -4,7 +4,7 @@
 ///
 /// This is the package a consuming Flutter project imports to embed
 /// `LabelDesigner` in a screen. Doesn't save to disk or print; never
-/// imports any `label_renderer_*` for a physical printer.
+/// imports any `renderer_*` for a physical printer.
 library;
 
 export 'src/label_designer.dart';

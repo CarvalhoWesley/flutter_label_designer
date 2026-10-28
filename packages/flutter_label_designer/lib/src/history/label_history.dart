@@ -4,7 +4,7 @@
 /// Every [Command] is a pure function of the [LabelDocument] it receives:
 /// `execute`/`undo` return a new document via `copyWith`, never mutating
 /// it or any nested element in place. This package has zero dependency on
-/// Flutter or MobX — `label_designer_state`'s `HistoryStore` is the thin
+/// Flutter or MobX — `designer_state`'s `HistoryStore` is the thin
 /// reactive wrapper consumed by the UI.
 library;
 

@@ -13,8 +13,8 @@ import 'package:flutter_label_printer/flutter_label_printer.dart'
 /// code" for the preview to diverge from.
 ///
 /// [document] and [sampleData] are plain values, not stores: this widget
-/// doesn't know about `label_designer_state`/MobX (see section 6 — it only
-/// depends on `label_layout_engine` and `label_renderer_canvas`). The
+/// doesn't know about `designer_state`/MobX (see section 6 — it only
+/// depends on `layout_engine` and `renderer_canvas`). The
 /// caller is expected to observe its own document source and rebuild this
 /// widget with a new [document] on change; resolving+rendering is async
 /// work, so redundant rebuilds are coalesced with [debounce] rather than

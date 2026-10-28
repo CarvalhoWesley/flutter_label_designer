@@ -66,7 +66,7 @@ void main() {
   test(
     'a 90deg group rotation moves a top-left child into the top-right quadrant',
     () {
-      // Same fixture as label_layout_engine's group_rotation_test.dart, so
+      // Same fixture as layout_engine's group_rotation_test.dart, so
       // both engines must agree pixel-for-pixel on where a rotated group's
       // children land.
       final placed = paintOrder([
@@ -122,7 +122,7 @@ void main() {
         ],
       ),
     ], _layers);
-    // Same worked example as label_layout_engine's nested-groups test:
+    // Same worked example as layout_engine's nested-groups test:
     // child absolute center = (35, 5), absolute rotation = 90.
     expect(placed.single.placement.center.x, closeTo(35, 1e-9));
     expect(placed.single.placement.center.y, closeTo(5, 1e-9));

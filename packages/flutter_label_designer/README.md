@@ -33,6 +33,12 @@ ou
 flutter pub add flutter_label_designer
 ```
 
+Qual pacote usar:
+
+- `flutter_label_designer` — para usar o editor visual (já reexporta `flutter_label_printer`).
+- `flutter_label_printer` — apenas para impressão/renderização, sem o editor (ex.: serviço headless).
+- `flutter_label_printer_windows` — adicione para enviar bytes ao spooler do Windows.
+
 ## Usage
 
 ### Embutir o editor

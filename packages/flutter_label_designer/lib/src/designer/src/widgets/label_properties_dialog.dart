@@ -9,8 +9,8 @@ import '../../../property_panel/label_property_panel.dart';
 /// Dialog for editing document-level metadata: the label's name and its
 /// [PageConfig] (size, dpi, orientation, margins). Neither is tied to a
 /// specific [LabelElement], so there's no natural home for them in
-/// `label_property_panel`'s per-element sections — this dialog is
-/// `label_designer`'s own, opened from [DesignerToolbar].
+/// `property_panel`'s per-element sections — this dialog is
+/// `designer`'s own, opened from [DesignerToolbar].
 ///
 /// Purely a form: it reads an initial snapshot and returns the edited
 /// values via [onSave] when the user confirms — the caller decides how to

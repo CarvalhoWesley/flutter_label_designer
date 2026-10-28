@@ -27,21 +27,16 @@ import 'package:flutter_label_designer/flutter_label_designer.dart';
 
 Isso já dá acesso a `LabelDesigner`, `LabelDocument`, `LabelLayoutEngine`, `PdfRenderer`, `CanvasRenderer`, `ArgoxRenderer` e `LabelDocumentCodec` — o resto deste guia usa esse único import.
 
-### Opção avançada: pacotes individuais
+### Opção avançada: só impressão ou spooler do Windows
 
-Se você quer controle fino sobre o que entra no seu app (por exemplo, um serviço de impressão headless que só precisa de `label_renderer_pdf`, sem o editor visual inteiro), declare só os pacotes que usa:
+Se você não precisa do editor visual (por exemplo, um serviço de impressão headless que só precisa de renderers), dependa apenas de `flutter_label_printer` (modelo, layout engine, serialização, renderers PDF/PNG/PPLA e contrato de transporte). Para enviar bytes ao spooler do Windows, adicione também `flutter_label_printer_windows`:
 
 ```yaml
 dependencies:
-  label_designer:
-    path: ../label_designer_workspace/packages/label_designer
-  label_layout_engine:
-    path: ../label_designer_workspace/packages/label_layout_engine
-  label_renderer_pdf:
-    path: ../label_designer_workspace/packages/label_renderer_pdf
-  label_renderer_argox:
-    path: ../label_designer_workspace/packages/label_renderer_argox
-  # + label_renderer_zebra, label_renderer_tsc quando existirem (ver ROADMAP.md, etapa 16)
+  flutter_label_printer:
+    path: ../label_designer_workspace/packages/flutter_label_printer
+  flutter_label_printer_windows: # opcional, só Windows
+    path: ../label_designer_workspace/packages/flutter_label_printer_windows
 ```
 
 ### Em produção
@@ -87,11 +82,11 @@ class MinhaTelaDeEdicao extends StatelessWidget {
 }
 ```
 
-**Armadilha conhecida**: `label_core.EdgeInsets` (margens em mm) e `flutter/material.dart`'s `EdgeInsets` têm o mesmo nome. Se o seu arquivo importar os dois, esconda um deles como no exemplo acima — é o mesmo workaround que o próprio `label_designer` já usa internamente, não é algo novo.
+**Armadilha conhecida**: `EdgeInsets` do modelo (`flutter_label_printer`) (margens em mm) e `flutter/material.dart`'s `EdgeInsets` têm o mesmo nome. Se o seu arquivo importar os dois, esconda um deles como no exemplo acima — é o mesmo workaround que o próprio editor já usa internamente, não é algo novo.
 
 ## 3. Resolver e renderizar na hora de exportar/imprimir
 
-`LabelDocument` não sabe nada sobre impressoras ou pixels — o `LabelLayoutEngine` resolve variáveis/expressões/unidades para o DPI alvo, e um `label_renderer_*` converte o layout resolvido para bytes de saída. Nenhum renderer recalcula layout; todos recebem o mesmo `ResolvedDocument`.
+`LabelDocument` não sabe nada sobre impressoras ou pixels — o `LabelLayoutEngine` resolve variáveis/expressões/unidades para o DPI alvo, e um renderer (`PdfRenderer`, `ArgoxRenderer`, ...) converte o layout resolvido para bytes de saída. Nenhum renderer recalcula layout; todos recebem o mesmo `ResolvedDocument`.
 
 ```dart
 import 'package:flutter_label_designer/flutter_label_designer.dart';
@@ -120,7 +115,7 @@ final pplaBytes = await argoxRenderer.render(resolved, const ArgoxRendererOption
 Este framework entrega bytes já codificados na linguagem de destino — **o transporte é sempre responsabilidade do seu projeto**:
 
 - **PDF**: grave em arquivo (`dart:io`), abra num visualizador, ou envie por e-mail/API.
-- **PPLA/Argox**: envie por USB, rede (socket TCP na porta 9100, tipicamente) ou Bluetooth, conforme como sua impressora está conectada. Nenhum pacote deste workspace implementa transporte de impressão — ver a extensão futura `label_print_transport` mencionada em `ROADMAP.md`, caso queira reaproveitar algo pronto em vez de escrever o seu.
+- **PPLA/Argox**: envie por USB, rede (socket TCP na porta 9100, tipicamente) ou Bluetooth, conforme como sua impressora está conectada. `flutter_label_printer` define o contrato de transporte (`PrintTransport`) e `flutter_label_printer_windows` implementa o envio ao spooler do Windows; para outros meios, implemente o contrato ou escreva o seu.
 
 ## 5. O que já foi validado vs. o que falta
 
@@ -131,4 +126,4 @@ Este framework entrega bytes já codificados na linguagem de destino — **o tra
 | `flutter_label_designer` sozinho (sem nenhum outro import de pacote) é suficiente para tudo isso | `packages/flutter_label_designer/test/flutter_label_designer_test.dart` |
 | Os pacotes resolvem corretamente via `path:` dentro deste monorepo (`melos bootstrap`) | Todas as etapas |
 | **Pendente**: os pacotes funcionam quando consumidos via `path:`/`git:` a partir de um `pubspec.yaml` genuinamente fora deste workspace (fora do gerenciamento do melos) | Não feito ainda — recomendado antes de depender disso em produção |
-| **Pendente**: bytes PPLA validados contra uma impressora Argox real | Ver `packages/label_renderer_argox/README.md` |
+| **Pendente**: bytes PPLA validados contra uma impressora Argox real | Ver `packages/flutter_label_printer/lib/src/renderer_argox/README.md` |

@@ -6,7 +6,7 @@ import '../command.dart';
 /// `LabelDocument.page`) that isn't tied to one specific [LabelElement].
 ///
 /// Mirrors [ChangePropertyCommand]'s design: the caller (e.g.
-/// `label_designer_state`'s `LayerStore`) supplies [apply], a closure that
+/// `designer_state`'s `LayerStore`) supplies [apply], a closure that
 /// knows how to write [T] onto [LabelDocument] via `copyWith`.
 class ChangeDocumentCommand<T> implements Command {
   const ChangeDocumentCommand({

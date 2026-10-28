@@ -136,7 +136,7 @@ class PlaygroundPage extends StatelessWidget {
   }
 }
 
-/// The same product-label fixture used by `label_renderer_canvas`'s
+/// The same product-label fixture used by `renderer_canvas`'s
 /// end-to-end test (see `docs/ROADMAP.md` etapa 6) — a border, a text
 /// element with a `{{ }}` placeholder, a `VariableElement` exercising
 /// `.currency()`, and a barcode whose data is itself an expression, with

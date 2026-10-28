@@ -7,7 +7,7 @@ final _random = Random();
 /// `'layer'`, ...), combining the current time with a random suffix.
 ///
 /// Good enough for editing a single in-memory document within one running
-/// app session — `label_serialization` doesn't validate id uniqueness on
+/// app session — `serialization` doesn't validate id uniqueness on
 /// load, so this deliberately doesn't try to guarantee global uniqueness
 /// across sessions/files either, just "won't collide with anything
 /// already on screen".

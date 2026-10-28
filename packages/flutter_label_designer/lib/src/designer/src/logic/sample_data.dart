@@ -1,6 +1,6 @@
 import 'package:flutter_label_printer/flutter_label_printer.dart';
 
-/// Builds a placeholder data map for `label_preview` from a document's
+/// Builds a placeholder data map for `preview` from a document's
 /// declared [LabelVariable]s: [LabelVariable.defaultValue] when present,
 /// otherwise a type-appropriate empty value — so `{{ produto }}` renders
 /// as something (an empty string, `0`, ...) instead of the literal string

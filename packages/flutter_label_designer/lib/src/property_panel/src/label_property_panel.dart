@@ -11,13 +11,13 @@ import 'widgets/empty_selection_view.dart';
 import 'widgets/multi_selection_view.dart';
 
 /// The editor's property panel: reactive editing of the selected
-/// element(s)' fields, wired to `label_designer_state`'s stores (see
+/// element(s)' fields, wired to `designer_state`'s stores (see
 /// `docs/ARCHITECTURE.md` sections 7 and 14).
 ///
 /// Every field edit is dispatched through [propertyStore], which routes
 /// it through [HistoryStore] — this widget never mutates a
 /// [LabelDocument] directly, so every edit is undo-able by construction.
-/// Never imports `label_layout_engine` nor any `label_renderer_*`.
+/// Never imports `layout_engine` nor any `renderer_*`.
 class LabelPropertyPanel extends StatelessWidget {
   const LabelPropertyPanel({
     super.key,

@@ -39,7 +39,7 @@ String addableElementTypeLabel(AddableElementType type) => switch (type) {
 /// size, placed at [position] on [layerId] with the given [id].
 ///
 /// The result is meant to be dropped onto the canvas as-is and then
-/// edited via `label_property_panel` — defaults exist only so a freshly
+/// edited via `property_panel` — defaults exist only so a freshly
 /// added element renders as something visible rather than empty/invalid
 /// (e.g. a barcode needs non-empty `data` to encode at all).
 LabelElement createDefaultElement({

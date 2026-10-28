@@ -9,12 +9,12 @@ import '../geometry/placement.dart';
 import 'image_decode_cache.dart';
 
 /// Paints one [LabelElement] directly onto [canvas] at [placement] —
-/// `label_canvas`'s own direct, editable rendering of the model, never via
-/// `label_layout_engine` or any `label_renderer_*` (see
+/// `canvas`'s own direct, editable rendering of the model, never via
+/// `layout_engine` or any `renderer_*` (see
 /// `docs/ARCHITECTURE.md` section 15).
 ///
 /// Barcode/QR/table content isn't decoded or laid out here (that's
-/// `label_barcode`/renderer territory) — those types draw a labeled
+/// `barcode`/renderer territory) — those types draw a labeled
 /// placeholder box instead, exactly like a real design tool shows an
 /// unresolved asset. Images are the one exception: a `data:` URI source is
 /// self-contained (no I/O needed to resolve it), so [imageCache] decodes
@@ -174,7 +174,7 @@ class ElementPainter implements LabelElementVisitor<void> {
 
   void _drawImage(ui.Image image, ImageFit fit, Rect rectPx) {
     // Preview-only simplification: crop (cropPosition/cropSize) is honored
-    // by `label_renderer_canvas`'s export/print path but not here — the
+    // by `renderer_canvas`'s export/print path but not here — the
     // canvas shows the whole source image fitted into the box.
     final srcRect = Rect.fromLTWH(
       0,

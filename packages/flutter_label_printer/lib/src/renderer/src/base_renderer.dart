@@ -13,11 +13,11 @@ import 'renderer_options.dart';
 /// The fixed flow — `header` once, `encodeElement` per element sorted by
 /// [ResolvedElement.zIndex], `footer` once, then encode the concatenated
 /// string to bytes — lives here a single time; each command-based
-/// renderer (`label_renderer_argox`, `_zebra`, `_tsc`) only implements the
+/// renderer (`renderer_argox`, `_zebra`, `_tsc`) only implements the
 /// three dialect-specific pieces. `CanvasRenderer` and `PdfRenderer` don't
 /// extend this — they paint into a raster/vector canvas, not a command
 /// string, so forcing the same shape on them would be an artificial
-/// abstraction (see `label_renderer_canvas`'s docs).
+/// abstraction (see `renderer_canvas`'s docs).
 abstract class BaseRenderer implements LabelRenderer {
   const BaseRenderer();
 

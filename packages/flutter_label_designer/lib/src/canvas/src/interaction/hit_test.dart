@@ -12,7 +12,7 @@ export 'visibility.dart' show isElementInteractable, isElementVisible;
 ///
 /// A `GroupElement` is hit-tested as one opaque unit against its own
 /// bounding box — clicking any of its children selects the group, since
-/// `label_canvas` has no "enter group" mode (grouping/ungrouping UI is
+/// `canvas` has no "enter group" mode (grouping/ungrouping UI is
 /// deferred; see the package README).
 String? hitTestElement({
   required List<LabelElement> elements,

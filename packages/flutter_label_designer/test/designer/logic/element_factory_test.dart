@@ -19,7 +19,7 @@ void main() {
       expect(element.size.width, greaterThan(0));
       // A LineElement's "size" is a (dx, dy) delta and may legitimately be
       // 0 on one axis (a purely horizontal/vertical line) — see
-      // label_layout_engine's hasValidDimensions check.
+      // layout_engine's hasValidDimensions check.
       if (type != AddableElementType.line) {
         expect(element.size.height, greaterThan(0));
       }

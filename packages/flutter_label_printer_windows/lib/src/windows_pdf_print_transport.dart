@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter_label_printer/flutter_label_printer.dart';
 import 'package:windows_printer/windows_printer.dart';
 
-/// Sends PDF bytes (e.g. from `label_renderer_pdf`) to a Windows printer
+/// Sends PDF bytes (e.g. from `renderer_pdf`) to a Windows printer
 /// through the system's own driver/rendering pipeline — works with any
 /// installed printer, not just direct-command thermal printers. `target`
 /// is a Windows printer name; `null` uses the system default printer.

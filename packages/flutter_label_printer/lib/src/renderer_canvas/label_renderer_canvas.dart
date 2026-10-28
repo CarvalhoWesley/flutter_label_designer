@@ -1,6 +1,6 @@
 /// Renderiza um `ResolvedDocument` em PNG usando `dart:ui` — tipografia
 /// real (TTF, negrito/itálico, Google Fonts). Também é o motor por trás
-/// do preview do editor (`label_preview`). Ver `docs/ARCHITECTURE.md`
+/// do preview do editor (`preview`). Ver `docs/ARCHITECTURE.md`
 /// seção 11.
 library;
 

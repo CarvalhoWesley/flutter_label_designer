@@ -17,13 +17,13 @@ enum ResizeHandle {
   rotation,
 }
 
-/// Ephemeral interaction state for `label_canvas` — everything about *how*
+/// Ephemeral interaction state for `canvas` — everything about *how*
 /// the user is currently dragging, not *what* is selected ([SelectionStore])
 /// or *what the document contains* ([DocumentStore]).
 ///
 /// None of this is undo-able or persisted: it's reset the moment the
 /// gesture ends. This also doubles as the live "drag preview" the
-/// painter reads while a gesture is in progress — `label_canvas` never
+/// painter reads while a gesture is in progress — `canvas` never
 /// dispatches a `Command` per pointer-move frame (that would flood the
 /// undo stack), only once on release; until then, the moved/resized/
 /// rotated element's on-screen position comes from here instead of
@@ -72,8 +72,8 @@ abstract class CanvasStoreBase with Store {
   @observable
   Point? marqueeEnd;
 
-  /// Bumped by [requestFitToView] to ask `label_canvas` to recompute
-  /// zoom/pan so the page fills the viewport — `label_canvas` reacts to
+  /// Bumped by [requestFitToView] to ask `canvas` to recompute
+  /// zoom/pan so the page fills the viewport — `canvas` reacts to
   /// this value changing rather than exposing a method, so callers outside
   /// the widget tree (the toolbar's "fit to view" button) don't need a
   /// reference to canvas internals.
@@ -83,7 +83,7 @@ abstract class CanvasStoreBase with Store {
   @action
   void requestFitToView() => fitToViewRequest++;
 
-  /// Bumped by [requestActualSize] to ask `label_canvas` to show the page
+  /// Bumped by [requestActualSize] to ask `canvas` to show the page
   /// at 100% (actual/real size) instead of an auto-computed "fit" zoom —
   /// same pattern as [fitToViewRequest], used when a document is first
   /// loaded/swapped rather than when the user explicitly asks to fit the

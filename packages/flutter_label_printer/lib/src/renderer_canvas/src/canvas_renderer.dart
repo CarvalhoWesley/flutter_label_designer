@@ -15,7 +15,7 @@ import 'element_painter.dart';
 /// workspace).
 ///
 /// Used both for raster export and, unmodified, as the engine behind
-/// `label_preview` — the preview panel calls the exact same renderer used
+/// `preview` — the preview panel calls the exact same renderer used
 /// for a "PNG/JPEG export" print job, so what the user sees while editing
 /// never diverges from what actually gets produced (see
 /// `docs/ARCHITECTURE.md` section 16).
@@ -40,7 +40,7 @@ class CanvasRenderer implements LabelRenderer {
   }
 
   /// Same painting pipeline as [render], stopping before PNG encoding —
-  /// for a caller that needs raw pixels (e.g. `label_renderer_argox_raster`
+  /// for a caller that needs raw pixels (e.g. `renderer_argox_raster`
   /// thresholding to a monochrome bitmap) and would otherwise pay for a
   /// pointless PNG encode/decode round trip. Caller must `dispose()` the
   /// returned image.

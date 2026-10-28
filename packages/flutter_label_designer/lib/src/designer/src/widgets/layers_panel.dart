@@ -15,7 +15,7 @@ import '../logic/id_generator.dart';
 ///
 /// [activeLayerId]/[onActiveLayerChanged] are owned by `LabelDesigner`
 /// itself, not `LayerStore` — "which layer new elements go on" is
-/// `label_designer`'s own composition-level concern, not part of the
+/// `designer`'s own composition-level concern, not part of the
 /// document or reusable state layer.
 class LayersPanel extends StatelessWidget {
   const LayersPanel({

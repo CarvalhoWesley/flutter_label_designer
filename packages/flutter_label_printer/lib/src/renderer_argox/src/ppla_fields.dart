@@ -6,7 +6,7 @@
 /// Every mapping here (orientation codes, ASD font sizes, barcode type
 /// letters, the `0-9,A-O` scale alphabet) was cross-checked against three
 /// independent, real-world PPLA implementations rather than derived from a
-/// single source — see `label_renderer_argox`'s README for the references
+/// single source — see `renderer_argox`'s README for the references
 /// and what still needs validation against actual Argox hardware.
 library;
 
@@ -107,7 +107,7 @@ String pplaAsdFontSubtype(int fontSizeDots, int dpi) {
 /// How many physical print-head dots each PPLA "addressable dot" covers —
 /// `2` (a 2x2 physical block per address) on 203 DPI heads, `1` (no
 /// doubling) on 300/400/600 DPI heads. Backs [pplaDotSizeCommand]'s `Dnn`
-/// command; also needed by `label_renderer_argox_raster` to size a
+/// command; also needed by `renderer_argox_raster` to size a
 /// rasterized image in *addressable* dots rather than physical dots — a
 /// native text/barcode/shape command's position and size are expressed in
 /// hundredths of an inch (an absolute physical unit, unaffected by this
@@ -156,7 +156,7 @@ int pplaHundredthsOfInch(int dots, int dpi) => (dots * 100 / dpi).round();
 /// avoiding an extra rounding step.
 int pplaMmToHundredthsOfInch(double mm) => (mm * 100 / 25.4).round();
 
-/// One PPLA type letter per [BarcodeSymbology] `label_barcode` can encode.
+/// One PPLA type letter per [BarcodeSymbology] `barcode` can encode.
 /// Uppercase shows the human-readable text under the bars; lowercase
 /// suppresses it — see [pplaBarcodeTypeCode].
 const Map<BarcodeSymbology, String> pplaBarcodeTypeLetters = {

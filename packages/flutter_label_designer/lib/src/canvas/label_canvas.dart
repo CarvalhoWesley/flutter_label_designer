@@ -2,7 +2,7 @@
 /// girar, zoom/pan, grid/snap. See `docs/ARCHITECTURE.md` section 15.
 ///
 /// Draws a direct, editable representation of the current `LabelDocument`
-/// — never `label_layout_engine`, never any `label_renderer_*`.
+/// — never `layout_engine`, never any `renderer_*`.
 library;
 
 export 'src/interaction/canvas_controller.dart';

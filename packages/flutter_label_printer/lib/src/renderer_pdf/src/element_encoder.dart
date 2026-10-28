@@ -18,7 +18,7 @@ import 'pdf_font_resolver.dart';
 /// mathematically-CCW-positive coordinate system — negating
 /// [ResolvedElement.rotationDegrees] once here is the only adjustment
 /// needed to match the exact same visual rotation direction as
-/// `label_renderer_canvas`'s `ElementPainter` (`dart:ui` is Y-down, so a
+/// `renderer_canvas`'s `ElementPainter` (`dart:ui` is Y-down, so a
 /// positive `canvas.rotate` there is already clockwise). Building the
 /// equivalent by hand with raw `PdfGraphics` would require mirroring
 /// glyph/image content to counteract the reflection baked into a manual
@@ -186,7 +186,7 @@ class ElementEncoder {
 
   /// [PdfGraphics] inside a [pw.CustomPaint] is already translated to the
   /// widget's own box, but stays in PDF's native bottom-left-origin, Y-up
-  /// frame — unlike [SymbolModule.top], which (like `label_renderer_canvas`)
+  /// frame — unlike [SymbolModule.top], which (like `renderer_canvas`)
   /// measures from the *top*. `size.y - top - height` converts between the
   /// two for each module rectangle.
   void _paintModules(

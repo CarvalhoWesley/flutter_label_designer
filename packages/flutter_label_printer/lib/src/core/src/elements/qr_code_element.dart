@@ -4,7 +4,7 @@ part of 'label_element.dart';
 enum QrErrorCorrectionLevel { low, medium, quartile, high }
 
 /// A QR Code. PDF417 and DataMatrix will be introduced as additional 2D
-/// symbologies when `label_barcode` (implementation of the barcode/QR
+/// symbologies when `barcode` (implementation of the barcode/QR
 /// encoding logic) is built; this element only models what the QR Code
 /// standard specifically needs (error correction level).
 class QRCodeElement extends LabelElement {

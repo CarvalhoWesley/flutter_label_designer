@@ -4,7 +4,7 @@ import 'package:flutter_label_printer/flutter_label_printer.dart';
 
 /// Converts between millimeters (the [LabelDocument] coordinate space) and
 /// on-screen pixels, given the current zoom/pan — the same `originOffset +
-/// mm * pixelsPerMm` convention `label_widgets`' `LabelRuler` uses, so the
+/// mm * pixelsPerMm` convention `widgets`' `LabelRuler` uses, so the
 /// canvas and its rulers always agree on where 0mm sits.
 class CanvasTransform {
   const CanvasTransform({required this.zoom, required this.pan});
