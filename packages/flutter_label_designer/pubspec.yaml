@@ -1,8 +1,7 @@
 name: flutter_label_designer
 description: >
-  Editor visual de etiquetas para Flutter, com motor de layout,
-  serialização e renderers prontos (PDF, PNG, PPLA/Argox) atrás de uma
-  única dependência.
+  Editor visual de etiquetas para Flutter (canvas, painel de propriedades,
+  preview ao vivo, desfazer/refazer), construído sobre flutter_label_printer.
 version: 1.0.0
 publish_to: none
 
@@ -13,26 +12,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  label_core:
-    path: ../label_core
-  label_designer:
-    path: ../label_designer
-  label_layout_engine:
-    path: ../label_layout_engine
-  label_renderer:
-    path: ../label_renderer
-  label_renderer_argox:
-    path: ../label_renderer_argox
-  label_renderer_argox_raster:
-    path: ../label_renderer_argox_raster
-  label_renderer_canvas:
-    path: ../label_renderer_canvas
-  label_renderer_pdf:
-    path: ../label_renderer_pdf
-  label_serialization:
-    path: ../label_serialization
+  file_picker: ^8.1.0
+  flutter_label_printer: ^1.0.0
+  flutter_mobx: ^2.3.0
+  mobx: ^2.5.0
 
 dev_dependencies:
+  build_runner: ^2.4.15
   flutter_test:
     sdk: flutter
   lints: ^5.0.0
+  mobx_codegen: ^2.7.0
+  test: ^1.24.0

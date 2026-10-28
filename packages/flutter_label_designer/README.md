@@ -2,7 +2,7 @@
 
 [![pub package](https://img.shields.io/pub/v/flutter_label_designer.svg)](https://pub.dev/packages/flutter_label_designer)
 
-Editor visual de etiquetas para Flutter, com motor de layout, serialização e renderers prontos (PDF, PNG, PPLA/Argox) — tudo atrás de uma única dependência.
+Editor visual de etiquetas para Flutter. Reexporta toda a API de `flutter_label_printer` (motor de layout, serialização e renderers PDF, PNG e PPLA/Argox), então uma única dependência basta.
 
 ## Features
 
@@ -16,7 +16,7 @@ Editor visual de etiquetas para Flutter, com motor de layout, serialização e r
 - **`LabelDocumentCodec`** — serializa/desserializa documentos `.label` (JSON).
 - **`LabelRenderer`/`RendererOptions`/`BaseRenderer`** — contrato Template Method para quem quiser escrever um renderer de impressora próprio.
 
-Este é um pacote guarda-chuva: reexporta a API pública de um conjunto de pacotes internos por trás de uma única dependência, para não obrigar o projeto consumidor a declarar 6-8 dependências separadas. Os pacotes individuais continuam existindo para quem quiser controle fino (por exemplo, um serviço headless que só precisa de um renderer, sem o editor visual).
+O editor é construído sobre `flutter_label_printer`, que também pode ser usado sozinho (por exemplo, em um serviço headless que só precisa de um renderer, sem o editor visual).
 
 ## Getting started
 
