@@ -1,6 +1,6 @@
 # barcode (flutter_label_printer)
 
-Geração de símbolos de código de barras/QR — um padrão de módulos abstrato (retângulos fracionários 0.0–1.0, sem pixels/dots/cor), consumido por `label_renderer_canvas`, `label_renderer_pdf` e qualquer renderer futuro. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 11.
+Geração de símbolos de código de barras/QR — um padrão de módulos abstrato (retângulos fracionários 0.0–1.0, sem pixels/dots/cor), consumido por `renderer_canvas`, `renderer_pdf` e qualquer renderer futuro. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 11.
 
 ## Decisão de arquitetura
 
@@ -15,7 +15,7 @@ final symbol = linearBarcodeEncoders[BarcodeSymbology.ean13]!.encode('5901234123
 final qr = qrCodeEncoder.encode('https://...', level: QrErrorCorrectionLevel.medium);
 ```
 
-Cobre todos os 7 símbolos lineares declarados em `label_core.BarcodeSymbology` (EAN13, EAN8, Code39, Code128, UPC, ITF, Codabar) mais QR Code. PDF417 e DataMatrix já têm encoder pronto (`pdf417BarcodeEncoder`, `dataMatrixBarcodeEncoder`), aguardando apenas um `LabelElement` correspondente em `label_core` para serem usados.
+Cobre todos os 7 símbolos lineares declarados em `core.BarcodeSymbology` (EAN13, EAN8, Code39, Code128, UPC, ITF, Codabar) mais QR Code. PDF417 e DataMatrix já têm encoder pronto (`pdf417BarcodeEncoder`, `dataMatrixBarcodeEncoder`), aguardando apenas um `LabelElement` correspondente em `core` para serem usados.
 
 ## Testes
 

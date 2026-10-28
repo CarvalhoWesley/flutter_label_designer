@@ -14,9 +14,9 @@ Estados:
   aplicar a todos de uma vez (visível, bloqueado, opacidade), como um único
   passo de undo (`PropertyStore.changeProperties`).
 
-Toda edição passa por `PropertyStore` (de `label_designer_state`), que
+Toda edição passa por `PropertyStore` (de `designer_state`), que
 despacha `ChangePropertyCommand`s através de `HistoryStore` — nenhuma
 edição aqui muta `LabelDocument` diretamente. Este pacote nunca calcula
-layout nem importa `label_layout_engine`/`label_renderer_*`.
+layout nem importa `layout_engine`/`renderer_*`.
 
 Ver `docs/ARCHITECTURE.md`, seções 7 e 14.

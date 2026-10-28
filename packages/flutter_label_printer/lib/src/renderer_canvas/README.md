@@ -4,7 +4,7 @@ Renderiza um `ResolvedDocument` em PNG usando `dart:ui` — tipografia real (TTF
 
 **Único pacote Flutter deste workspace até agora** (todos os anteriores são Dart puro) — necessário porque renderizar tipografia de verdade exige o motor do Flutter; não há biblioteca Dart pura com qualidade equivalente para TTF/negrito/itálico. Testado com `flutter test`, não `dart test`.
 
-Também é o motor por trás do preview do editor (`label_preview`, etapa futura): o preview chama exatamente este mesmo renderer, garantindo que o que o usuário vê durante a edição nunca diverge do resultado real de exportação/impressão.
+Também é o motor por trás do preview do editor (`preview`, etapa futura): o preview chama exatamente este mesmo renderer, garantindo que o que o usuário vê durante a edição nunca diverge do resultado real de exportação/impressão.
 
 ## Uso
 

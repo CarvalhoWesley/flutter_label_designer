@@ -78,24 +78,27 @@ Nenhum outro pacote da lista original foi removido ou renomeado.
 ## 3. Mapeamento em Clean Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ Frameworks & Drivers (Flutter, I/O, apps)                    │
-│  apps/*  label_designer  label_canvas  label_property_panel  │
-│  label_widgets  label_preview                                │
-├─────────────────────────────────────────────────────────────┤
-│ Interface Adapters (traduzem domínio ↔ mundo externo)        │
-│  label_renderer + label_renderer_argox/zebra/tsc/pdf/canvas  │
-│  label_barcode  label_serialization                          │
-├─────────────────────────────────────────────────────────────┤
-│ Application / Use Cases (orquestração, sem UI, sem I/O)      │
-│  label_history  label_designer_state                         │
-├─────────────────────────────────────────────────────────────┤
-│ Domain (entidades e regras puras, zero dependência Flutter)  │
-│  label_core  label_expression_engine  label_layout_engine    │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ Frameworks & Drivers (Flutter, I/O, apps)                         │
+│  apps/*                                                           │
+│  flutter_label_designer: designer, canvas, property_panel,        │
+│                          widgets, preview                         │
+│  flutter_label_printer_windows                                    │
+├──────────────────────────────────────────────────────────────────┤
+│ Interface Adapters (traduzem domínio ↔ mundo externo)             │
+│  flutter_label_printer: renderer, renderer_pdf, renderer_canvas,  │
+│    renderer_raster, renderer_argox, renderer_argox_raster,        │
+│    barcode, serialization, print_transport                        │
+├──────────────────────────────────────────────────────────────────┤
+│ Application / Use Cases (orquestração, sem UI, sem I/O)           │
+│  flutter_label_designer: history, designer_state                  │
+├──────────────────────────────────────────────────────────────────┤
+│ Domain (entidades e regras puras, zero dependência Flutter)       │
+│  flutter_label_printer: core, expression_engine, layout_engine    │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
-Regra de dependência: setas sempre apontam **para dentro**. Nenhum pacote de domínio importa Flutter. Nenhum pacote de domínio conhece um renderer.
+Regra de dependência: setas sempre apontam **para dentro**. Nenhum módulo de domínio importa Flutter. Nenhum módulo de domínio conhece um renderer. Entre pacotes, a dependência é única: `flutter_label_designer` → `flutter_label_printer` ← `flutter_label_printer_windows`.
 
 ## 4. Estrutura de packages
 
@@ -135,79 +138,84 @@ label_designer_workspace/            # monorepo (melos)
 
 > Não há `designer_desktop`/`designer_web` neste workspace. O projeto Flutter existente do usuário é o "app" que consome os pacotes acima via `pubspec.yaml`.
 
-> **Adição pós-etapa 17**: `flutter_label_designer` não estava na lista original de packages — foi adicionado depois que o guia de integração (etapa 17) deixou claro que exigir 6-8 dependências `path:`/`git:` separadas do projeto consumidor era um atrito real. Ele só reexporta símbolos de pacotes já existentes (não contém lógica própria além do barrel file) e não muda nenhuma regra de dependência interna deste diagrama — ver seção 20 e `docs/INTEGRATION.md`.
+> **Adição pós-etapa 17**: `flutter_label_designer` não estava na lista original de packages — nasceu como pacote "guarda-chuva" que só reexportava os demais, depois que o guia de integração (etapa 17) mostrou que exigir 6-8 dependências separadas do projeto consumidor era um atrito real. Na consolidação de 2026-10-28 ele passou a **conter** o editor (módulos `history`, `designer_state`, `widgets`, `canvas`, `property_panel`, `preview`, `designer`) e a reexportar `flutter_label_printer` — ver seção 20 e `docs/INTEGRATION.md`.
 
 ## 5. Diagrama de packages
 
-> Após a consolidação (2026-10-28), os nós abaixo são **módulos** (`lib/src/<nome>/`) dentro dos 3 packages (domínio, adapters e `history`/`designer_state`/UI distribuídos entre `flutter_label_printer` e `flutter_label_designer`); os nomes `label_*` históricos foram mantidos por clareza.
+Cada nó abaixo é um **módulo** (`lib/src/<nome>/`) dentro de um dos 3 packages publicáveis.
 
 ```mermaid
 graph TD
-    subgraph Workspace["label_designer_workspace"]
-        subgraph Domain["Domínio (puro Dart)"]
-            core[label_core]
-            expr[label_expression_engine]
-            layout[label_layout_engine]
-        end
-        subgraph Application["Aplicação"]
-            history[label_history]
-            state[label_designer_state]
-        end
-        subgraph Adapters["Interface Adapters"]
-            serial[label_serialization]
-            barcode[label_barcode]
-            renderer[label_renderer]
-            r_argox[label_renderer_argox]
-            r_zebra[label_renderer_zebra]
-            r_tsc[label_renderer_tsc]
-            r_pdf[label_renderer_pdf]
-            r_canvas[label_renderer_canvas]
-        end
-        subgraph UI["Frameworks / UI Flutter"]
-            widgets[label_widgets]
-            canvas[label_canvas]
-            propp[label_property_panel]
-            preview[label_preview]
-            designer[label_designer]
-        end
-        subgraph Apps["apps/ (interno, não entregável)"]
-            play[playground]
-        end
+    subgraph Printer["flutter_label_printer"]
+        core[core]
+        expr[expression_engine]
+        layout[layout_engine]
+        serial[serialization]
+        barcode[barcode]
+        renderer[renderer]
+        r_pdf[renderer_pdf]
+        r_canvas[renderer_canvas]
+        r_raster[renderer_raster]
+        r_argox[renderer_argox]
+        r_argox_raster[renderer_argox_raster]
+        transport[print_transport]
     end
-    userapp["Projeto Flutter existente do usuário<br/>(fora deste workspace)"]
-    userapp -.->|pubspec.yaml| designer
-    userapp -.->|pubspec.yaml, conforme a impressora| r_argox
+    subgraph Designer["flutter_label_designer"]
+        history[history]
+        state[designer_state]
+        widgets[widgets]
+        canvas[canvas]
+        propp[property_panel]
+        preview[preview]
+        designer[designer]
+    end
+    subgraph Windows["flutter_label_printer_windows"]
+        win[WindowsRawPrintTransport / WindowsPdfPrintTransport]
+    end
+    subgraph Apps["apps/ (interno, não entregável)"]
+        studio[label_studio]
+        play[playground]
+    end
+    userapp["Projeto Flutter do usuário"]
+    userapp -.->|editor + impressão| Designer
+    userapp -.->|só impressão| Printer
+    userapp -.->|spooler do Windows| Windows
 ```
 
 ## 6. Diagrama de dependências
 
+Dependências entre módulos (setas = "importa"). Módulos de `flutter_label_designer` só enxergam `flutter_label_printer` pelo barrel público dele.
+
 ```mermaid
 graph LR
-    core[label_core]
-    expr[label_expression_engine]
-    layout[label_layout_engine]
-    serial[label_serialization]
-    history[label_history]
-    barcode[label_barcode]
-    renderer[label_renderer]
-    r_canvas[label_renderer_canvas]
-    r_pdf[label_renderer_pdf]
-    r_argox[label_renderer_argox]
-    r_zebra[label_renderer_zebra]
-    r_tsc[label_renderer_tsc]
-    widgets[label_widgets]
-    state[label_designer_state]
-    canvas[label_canvas]
-    propp[label_property_panel]
-    preview[label_preview]
-    designer[label_designer]
-    play[playground]
-    userapp["projeto do usuário (externo)"]
+    subgraph Printer["flutter_label_printer"]
+        core[core]
+        expr[expression_engine]
+        layout[layout_engine]
+        serial[serialization]
+        barcode[barcode]
+        renderer[renderer]
+        r_canvas[renderer_canvas]
+        r_pdf[renderer_pdf]
+        r_raster[renderer_raster]
+        r_argox[renderer_argox]
+        r_argox_raster[renderer_argox_raster]
+        transport[print_transport]
+    end
+    subgraph Designer["flutter_label_designer"]
+        history[history]
+        state[designer_state]
+        widgets[widgets]
+        canvas[canvas]
+        propp[property_panel]
+        preview[preview]
+        designer[designer]
+    end
+    win[flutter_label_printer_windows]
 
     layout --> core
     layout --> expr
     serial --> core
-    history --> core
     barcode --> core
     renderer --> core
     r_canvas --> renderer
@@ -216,14 +224,14 @@ graph LR
     r_pdf --> barcode
     r_argox --> renderer
     r_argox --> barcode
-    r_zebra --> renderer
-    r_zebra --> barcode
-    r_tsc --> renderer
-    r_tsc --> barcode
+    r_raster --> renderer
+    r_raster --> r_canvas
+    r_argox_raster --> r_raster
+    r_argox_raster --> r_argox
+    history --> core
     state --> core
     state --> history
     state --> serial
-    state --> layout
     canvas --> core
     canvas --> widgets
     canvas --> state
@@ -237,26 +245,16 @@ graph LR
     designer --> preview
     designer --> state
     designer --> widgets
-    userapp -.-> designer
-    userapp -.-> serial
-    userapp -.-> r_argox
-    userapp -.-> r_zebra
-    userapp -.-> r_tsc
-    userapp -.-> r_pdf
-    play --> expr
-    play --> layout
-    play --> r_argox
-    play --> r_zebra
-    play --> r_tsc
-    play --> r_pdf
-    play --> r_canvas
+    win --> transport
 ```
 
-Observação de trade-off: `label_canvas` e `label_property_panel` dependem de `label_designer_state` (MobX) diretamente, por pragmatismo — ambos ficam reativos via `Observer()` sem camada extra. A alternativa mais pura (inversão de dependência, onde `label_canvas` define interfaces de controller e `label_designer_state` as implementa) fica documentada aqui como opção futura caso o projeto precise trocar MobX por outra solução de estado sem tocar no editor visual. Isso não viola a regra "editor nunca conhece renderer", pois `label_designer_state` não conhece nenhum `label_renderer_*`.
+Observação de trade-off: `canvas` e `property_panel` dependem de `designer_state` (MobX) diretamente, por pragmatismo — ambos ficam reativos via `Observer()` sem camada extra. A alternativa mais pura (inversão de dependência, onde `canvas` define interfaces de controller e `designer_state` as implementa) fica documentada aqui como opção futura caso o projeto precise trocar MobX por outra solução de estado sem tocar no editor visual. Isso não viola a regra "editor nunca conhece renderer", pois `designer_state` não conhece nenhum `renderer_*`.
 
 ## 7. Responsabilidade de cada módulo
 
-| Pacote | Responsabilidade única | Não faz |
+Na tabela, `label_<nome>` é o nome histórico do módulo `lib/src/<nome>/`: os módulos de domínio, adapters, `print_transport` e renderers ficam em `flutter_label_printer`; `history`, `designer_state` e a UI (`widgets`, `canvas`, `property_panel`, `preview`, `designer`) ficam em `flutter_label_designer`. Os renderers Zebra/TSC ainda não existem — hoje há `renderer_argox` (PPLA nativo), `renderer_raster` (base genérica de impressão em imagem, interface `RasterPrinterLanguage`) e `renderer_argox_raster` (PPLA em imagem).
+
+| Módulo | Responsabilidade única | Não faz |
 |---|---|---|
 | `label_core` | Entidades (`LabelDocument`, `LabelElement` e subtipos), value objects (`Point`, `Size2D`, `Dpi`, `Unit`), conversões de unidade puras | I/O, JSON, UI, layout, renderização |
 | `label_expression_engine` | Tokenizar/parsear/avaliar `{{ expressão }}` contra um `Map<String,dynamic>` de dados | Não conhece `LabelDocument`, não sabe o que é mm ou dots |

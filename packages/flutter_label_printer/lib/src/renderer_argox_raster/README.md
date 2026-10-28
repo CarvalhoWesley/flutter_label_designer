@@ -1,16 +1,22 @@
 # renderer_argox_raster (flutter_label_printer)
 
-Rasteriza um `ResolvedDocument` inteiro via `label_renderer_canvas` (tipografia real, código de barras, QR, formas preenchidas — o mesmo motor do Live Preview) e envia o resultado como uma imagem monocromática para uma impressora Argox, usando o comando de download de imagem do PPLA — em vez dos comandos nativos por elemento que `label_renderer_argox` usa.
+Rasteriza um `ResolvedDocument` inteiro via `renderer_canvas` (tipografia real, código de barras, QR, formas preenchidas — o mesmo motor do Live Preview) e envia o resultado como uma imagem monocromática para uma impressora Argox, usando o comando de download de imagem do PPLA — em vez dos comandos nativos por elemento que `renderer_argox` usa.
 
-Existe porque o PPLA nativo tem limites reais e permanentes: só uma família de fonte interna (tabela fixa de tamanhos, sem TrueType), sem preenchimento de forma, sem elipse de verdade, sem QR code — ver o README de `label_renderer_argox`. Este pacote contorna tudo isso ao custo de um job maior (imagem em vez de comandos compactos) e da nitidez nativa da fonte da impressora. Os dois renderers continuam disponíveis lado a lado; este não substitui o outro.
+Existe porque o PPLA nativo tem limites reais e permanentes: só uma família de fonte interna (tabela fixa de tamanhos, sem TrueType), sem preenchimento de forma, sem elipse de verdade, sem QR code — ver o README de `renderer_argox`. Este pacote contorna tudo isso ao custo de um job maior (imagem em vez de comandos compactos) e da nitidez nativa da fonte da impressora. Os dois renderers continuam disponíveis lado a lado; este não substitui o outro.
+
+## Estrutura: rasterização genérica + linguagem PPLA
+
+A conversão da etiqueta em imagem monocromática não fica aqui: ela fica em `renderer_raster`, que não conhece nenhum fabricante. Este módulo contribui só com `PplaRasterLanguage`, a implementação de `RasterPrinterLanguage` para PPLA. Ela define como rasterizar (multiplicador de pontos `D11`/`D22`, espelhamento) e monta o job: `<STX>qA`, `<STX>I` + BMP, cabeçalho de formato com o sensor de mídia (`<STX>e` por padrão — ver `renderer_argox`), `1Y…` e `Q`/`E`. `ArgoxRasterRenderer` é só `RasterRenderer(PplaRasterLanguage())`.
+
+Suportar outra linguagem de impressora em modo imagem (PPLB, ZPL, TSPL) significa escrever uma nova `RasterPrinterLanguage`; a rasterização é compartilhada.
 
 ## De onde vem o protocolo de imagem do PPLA
 
-Diferente de `label_renderer_argox` (que não teve acesso a um manual completo — ver o README dele), o comando de imagem aqui **foi extraído diretamente do Datamax Class Series 2 Programmer's Manual** (a mesma fonte que `label_renderer_argox` já cita para a tabela de fonte ASD, `Table C-6`), não é um palpite:
+Diferente de `renderer_argox` (que não teve acesso a um manual completo — ver o README dele), o comando de imagem aqui **foi extraído diretamente do Datamax Class Series 2 Programmer's Manual** (a mesma fonte que `renderer_argox` já cita para a tabela de fonte ASD, `Table C-6`), não é um palpite:
 
 1. **Download da imagem** (`<STX>I`, "System-Level Command Functions", comando `STX I`): `<STX>Iabfnn...n<CR>data`, onde `a` é o banco de memória, `b` (opcional) é o tipo de dado (omitido = binário 8-bit cru), `f` é o designador de formato (`b`/`B` = BMP 8-bit padrão/invertido — confirmados 1:1 contra a tabela do manual junto com `F`/`I`/`i`/`P`/`p`), `nn...n` é o nome da imagem (até 16 caracteres) terminado por `<CR>`, seguido pelos bytes crus do arquivo.
 2. O manual afirma que o formato de armazenamento interno da impressora para PCX/BMP é RLE-2 — ou seja, ela mesma faz o parse de um arquivo **BMP padrão**; não inventamos nenhum formato de pixel específico da Datamax/Argox.
-3. **Colocar a imagem na etiqueta** ("Generating Label Formats", tabela "5: Images"): `1Ycd000ffffgggg<nome><CR>` — registro de mesmo formato posicional dos outros tipos (fonte, código de barras, gráfico) já usados em `label_renderer_argox`.
+3. **Colocar a imagem na etiqueta** ("Generating Label Formats", tabela "5: Images"): `1Ycd000ffffgggg<nome><CR>` — registro de mesmo formato posicional dos outros tipos (fonte, código de barras, gráfico) já usados em `renderer_argox`.
 4. O terminador especial `FFFF<CR>` documentado no Apêndice N **não se aplica** aqui — ele é só para o formato alternativo "Datamax 7-bit ASCII" (designador `F`), que tem registros linha-a-linha sem tamanho auto-descrito. BMP já é auto-descrito pelo próprio cabeçalho, então os bytes do arquivo bastam, sem terminador extra.
 
 ## O que já foi confirmado em hardware real (Argox física)
@@ -61,4 +67,4 @@ final pplaBytes = await renderer.render(
 flutter test
 ```
 
-(O pacote depende de Flutter via `label_renderer_canvas`, então os testes rodam com `flutter test`, não `dart test`, mesmo a lógica testada — codificação BMP, threshold monocromático — sendo Dart puro sem `dart:ui`.)
+(O pacote depende de Flutter via `renderer_canvas`, então os testes rodam com `flutter test`, não `dart test`, mesmo a lógica testada — codificação BMP, threshold monocromático — sendo Dart puro sem `dart:ui`.)

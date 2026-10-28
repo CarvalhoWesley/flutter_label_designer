@@ -2,7 +2,7 @@
 
 Parser e avaliador desacoplado de expressões — a linguagem por trás de `{{ preco * quantidade }}`, `{{ estoque == 0 ? "SEM ESTOQUE" : "" }}`, `{{ data.format("dd/MM/yyyy") }}`. Ver [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), seção 10.
 
-Pacote Dart puro — sem dependência de `label_core`, Flutter ou impressoras. Avalia apenas o corpo da expressão (sem as chaves `{{ }}`); varrer um texto livre em busca de placeholders é responsabilidade do `label_layout_engine`.
+Pacote Dart puro — sem dependência de `core`, Flutter ou impressoras. Avalia apenas o corpo da expressão (sem as chaves `{{ }}`); varrer um texto livre em busca de placeholders é responsabilidade do `layout_engine`.
 
 ## Uso
 
