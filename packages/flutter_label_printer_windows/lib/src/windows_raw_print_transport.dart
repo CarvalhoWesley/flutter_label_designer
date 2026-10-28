@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:label_print_transport/label_print_transport.dart';
+import 'package:flutter_label_printer/flutter_label_printer.dart';
 import 'package:windows_printer/windows_printer.dart';
 
 /// Sends raw bytes (e.g. PPLA/PPLB from `label_renderer_argox`) straight to
@@ -11,7 +11,7 @@ import 'package:windows_printer/windows_printer.dart';
 /// Wraps `windows_printer`'s `WindowsPrinter.printRawData`. Validated
 /// manually against a real Argox printer connected via USB — this backend
 /// isn't covered by automated tests, since there's no spooler to talk to
-/// in CI (see `label_print_transport_windows`'s test/ for what *is*
+/// in CI (see `flutter_label_printer_windows`'s test/ for what *is*
 /// automated).
 class WindowsRawPrintTransport implements PrintTransport {
   const WindowsRawPrintTransport();

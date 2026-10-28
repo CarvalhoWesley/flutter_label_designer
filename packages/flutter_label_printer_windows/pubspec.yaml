@@ -1,6 +1,6 @@
-name: label_print_transport_windows
+name: flutter_label_printer_windows
 description: >
-  Backend de label_print_transport para o spooler de impressão do Windows,
+  Backend do contrato de transporte de flutter_label_printer para o spooler de impressão do Windows,
   embrulhando o pacote de terceiros windows_printer (impressão raw via USB
   e impressão de PDF pelo driver instalado). Windows-only por natureza —
   ver docs/ROADMAP.md, etapa 20, para os backends irmãos planejados
@@ -15,8 +15,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  label_print_transport:
-    path: ../label_print_transport
+  flutter_label_printer: ^1.0.0
   windows_printer: ^0.2.1
 
 dev_dependencies:

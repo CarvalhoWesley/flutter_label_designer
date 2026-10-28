@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:label_print_transport/label_print_transport.dart';
+import 'package:flutter_label_printer/flutter_label_printer.dart';
 import 'package:windows_printer/windows_printer.dart';
 
 /// Sends PDF bytes (e.g. from `label_renderer_pdf`) to a Windows printer

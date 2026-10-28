@@ -1,4 +1,4 @@
-/// Backend `label_print_transport` para o spooler de impressão do Windows
+/// Backend de transporte de `flutter_label_printer` para o spooler de impressão do Windows
 /// — ver `docs/ROADMAP.md`, etapa 20.
 library;
 
