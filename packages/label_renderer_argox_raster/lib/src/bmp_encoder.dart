@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'monochrome_bitmap.dart';
+import 'package:label_renderer_raster/label_renderer_raster.dart';
 
 /// Encodes [MonochromePixels] as a standard, minimal 1-bit-per-pixel
 /// Windows BMP file (`BITMAPFILEHEADER` + `BITMAPINFOHEADER` + a 2-color
