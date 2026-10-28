@@ -149,8 +149,7 @@ void main() {
       expect(output, endsWith('Q0005\rE\r'));
     });
 
-    test('encodes the label length in hundredths of an inch', () async {
-      // 203 dots at 203dpi == 1.00 inch == 0100 hundredths.
+    test('uses the gap sensor by default, without a fixed length', () async {
       const document = ResolvedDocument(
         widthDots: 200,
         heightDots: 203,
@@ -158,7 +157,39 @@ void main() {
         elements: [],
       );
       final output = await _render(document);
+      expect(output, contains('\x02e\r'));
+      expect(output, isNot(contains('\x02c')));
+    });
+
+    test('uses the reflective sensor for black mark media', () async {
+      const document = ResolvedDocument(
+        widthDots: 200,
+        heightDots: 203,
+        dpi: 203,
+        elements: [],
+      );
+      final output = await _render(
+        document,
+        const ArgoxRendererOptions(mediaSensing: ArgoxMediaSensing.blackMark),
+      );
+      expect(output, contains('\x02r\r'));
+      expect(output, isNot(contains('\x02c')));
+    });
+
+    test('encodes the continuous label length in hundredths of an inch', () async {
+      // 203 dots at 203dpi == 1.00 inch == 0100 hundredths.
+      const document = ResolvedDocument(
+        widthDots: 200,
+        heightDots: 203,
+        dpi: 203,
+        elements: [],
+      );
+      final output = await _render(
+        document,
+        const ArgoxRendererOptions(mediaSensing: ArgoxMediaSensing.continuous),
+      );
       expect(output, contains('\x02c0100\r'));
+      expect(output, isNot(contains('\x02e\r')));
     });
 
     test('throws UnimplementedError for the pplb dialect', () {

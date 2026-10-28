@@ -16,6 +16,21 @@ enum ArgoxDialect {
 /// ribbon and produces more durable labels.
 enum ArgoxTransferType { directThermal, thermalTransfer }
 
+/// How the printer finds where each label starts.
+enum ArgoxMediaSensing {
+  /// Die-cut labels separated by a gap — `<STX>e` (edge/gap sensor). The
+  /// printer re-syncs on every gap, so feed error never accumulates.
+  gap,
+
+  /// Media with a black mark on the back — `<STX>r` (reflective sensor).
+  blackMark,
+
+  /// Continuous media with no separation — `<STX>c####` fixed feed length.
+  /// Any mismatch between that length and the real pitch accumulates over
+  /// a batch, so only use it for genuinely continuous paper.
+  continuous,
+}
+
 /// Settings specific to [ArgoxRenderer].
 class ArgoxRendererOptions extends RendererOptions {
   const ArgoxRendererOptions({
@@ -26,6 +41,7 @@ class ArgoxRendererOptions extends RendererOptions {
     this.offsetXMm = 0,
     this.offsetYMm = 0,
     this.feedOffsetMm = 0,
+    this.mediaSensing = ArgoxMediaSensing.gap,
   }) : assert(darkness >= 2 && darkness <= 20, 'darkness (heat) is 2-20'),
        assert(copies >= 1 && copies <= 9999, 'copies is 1-9999');
 
@@ -57,5 +73,10 @@ class ArgoxRendererOptions extends RendererOptions {
   /// "sensor offset"/"top offset" media setting does (e.g. Argox's
   /// "Deslocamento superior"), which isn't reachable from a raw PPLA
   /// stream — see `WindowsRawPrintTransport`.
+  ///
+  /// Only used with [ArgoxMediaSensing.continuous]: with a gap or black
+  /// mark sensor the printer measures the pitch itself.
   final double feedOffsetMm;
+
+  final ArgoxMediaSensing mediaSensing;
 }
