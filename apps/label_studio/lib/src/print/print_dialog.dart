@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:flutter_label_designer/flutter_label_designer.dart' hide EdgeInsets;
-import 'package:label_print_transport_windows/label_print_transport_windows.dart';
+import 'package:flutter_label_printer_windows/flutter_label_printer_windows.dart';
 
 import '../common/live_preview.dart';
 import '../common/sample_data_form.dart';
@@ -13,7 +13,7 @@ import '../common/sample_data_form.dart';
 enum _PrintFormat { pdf, ppla, pplaRaster }
 
 /// Resolves [document] with sample data and sends the result straight to a
-/// Windows printer via `label_print_transport_windows`: a PDF through the
+/// Windows printer via `flutter_label_printer_windows`: a PDF through the
 /// system print pipeline (works with any installed driver), or a raw PPLA
 /// byte stream for a directly-connected Argox thermal printer
 /// ([WindowsRawPrintTransport], which bypasses Windows' own rendering so
