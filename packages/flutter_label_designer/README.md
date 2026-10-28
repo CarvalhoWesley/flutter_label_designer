@@ -24,7 +24,7 @@ Requer Flutter `>=3.32.0` e Dart SDK `^3.8.1`.
 
 ```yaml
 dependencies:
-  flutter_label_designer: ^1.0.0
+  flutter_label_designer: ^2.0.0
 ```
 
 ou

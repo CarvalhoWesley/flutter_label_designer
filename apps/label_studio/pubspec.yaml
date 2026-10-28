@@ -6,7 +6,7 @@ description: >
   tudo via flutter_label_designer — a mesma única dependência prevista para
   qualquer projeto Flutter consumidor (ver docs/INTEGRATION.md e
   docs/ARCHITECTURE.md, seção 20).
-version: 1.0.0+1
+version: 2.0.0+2
 publish_to: none
 
 environment:
