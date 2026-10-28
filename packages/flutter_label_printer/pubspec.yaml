@@ -2,7 +2,7 @@ name: flutter_label_printer
 description: >
   Motor de layout, serialização e renderers (PDF, PNG, PPLA/Argox) para
   etiquetas, mais o contrato de transporte de impressão. Sem UI de edição.
-version: 1.0.0
+version: 2.0.0
 publish_to: none
 
 environment:
