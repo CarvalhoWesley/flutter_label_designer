@@ -17,10 +17,6 @@ scripts:
     run: melos exec -- dart format --set-exit-if-changed .
     description: Check formatting in all packages.
 
-  test:
-    run: melos exec --dir-exists=test --no-flutter -- dart test
-    description: Run tests in all pure-Dart packages that have a test/ directory.
-
   test:flutter:
     run: melos exec --dir-exists=test --flutter -- flutter test
     description: Run tests in all Flutter packages that have a test/ directory.

@@ -32,7 +32,7 @@
 
 Framework Flutter para criação, edição e impressão de etiquetas térmicas — um "Figma para etiquetas", desacoplado de qualquer impressora específica.
 
-**Modelo de consumo**: este workspace produz **pacotes Dart/Flutter puros** (sem código nativo, não são "plugins" no sentido de platform channel), publicados via `path:`/`git:` (ou futuramente `pub.dev`). Não há aplicativo standalone entregável — o consumidor é o **projeto Flutter já existente do usuário**, que declara os pacotes necessários no seu `pubspec.yaml` (tipicamente `label_designer` para o editor visual e um ou mais `label_renderer_*` para impressão) e os utiliza como qualquer outra dependência. `apps/playground` existe só como ferramenta interna de desenvolvimento/teste deste workspace — não é código destinado ao usuário final.
+**Modelo de consumo**: este workspace produz **pacotes Dart/Flutter puros** (sem código nativo, não são "plugins" no sentido de platform channel), publicados via `path:`/`git:` (ou futuramente `pub.dev`). Não há aplicativo standalone entregável — o consumidor é o **projeto Flutter já existente do usuário**, que declara os pacotes necessários no seu `pubspec.yaml` (tipicamente `flutter_label_designer` para o editor visual, ou apenas `flutter_label_printer` para impressão sem editor, mais `flutter_label_printer_windows` para o spooler do Windows) e os utiliza como qualquer outra dependência. `apps/playground` existe só como ferramenta interna de desenvolvimento/teste deste workspace — não é código destinado ao usuário final.
 
 Fluxo macro (imutável, é a espinha dorsal de todo o sistema):
 
@@ -61,39 +61,44 @@ A lista de packages fornecida é o ponto de partida. Como arquiteto, proponho os
 
 Nenhum outro pacote da lista original foi removido ou renomeado.
 
-> **Adição pós-etapa 18**: `label_print_transport` estava previsto no ROADMAP como um
+> **Adição pós-etapa 18**: o transporte de impressão estava previsto no ROADMAP como um
 > único pacote futuro ("consumido apenas por projetos externos, nunca pelo domínio"). Na
-> etapa 20, ao implementá-lo, ele foi dividido em dois: `label_print_transport` (só a
+> etapa 20, ao implementá-lo, ele foi dividido em dois: o módulo `print_transport` (só a
 > interface `PrintTransport`/`PrinterDiscovery`, zero dependências) e
-> `label_print_transport_windows` (o backend que embrulha o pacote de terceiros
+> `flutter_label_printer_windows` (o backend que embrulha o pacote de terceiros
 > `windows_printer`, primeiro canal validado — USB via spooler do Windows). O motivo é o
 > mesmo já aplicado a `label_renderer`/`label_renderer_argox`: um pacote batizado de forma
 > genérica não deveria nascer acoplado a uma implementação específica de plataforma.
 > Backends futuros (rede/TCP na porta 9100, serial) viram novos pacotes irmãos de
-> `label_print_transport_windows`, sem tocar na interface. Ver seção 4 e
+> `flutter_label_printer_windows`, sem tocar na interface. Ver seção 4 e
 > `docs/ROADMAP.md`, etapa 20.
+
+> **Consolidação (2026-10-28)**: os 21 packages descritos neste documento foram consolidados em 3 (`flutter_label_printer`, `flutter_label_designer`, `flutter_label_printer_windows`); os nomes `label_*` abaixo passam a designar **módulos** em `lib/src/<nome>/` dentro desses pacotes (ex.: `label_core` -> `flutter_label_printer/lib/src/core/`). As regras de dependência permanecem as mesmas. Ver `docs/superpowers/specs/2026-10-28-package-consolidation-design.md`.
 
 ## 3. Mapeamento em Clean Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ Frameworks & Drivers (Flutter, I/O, apps)                    │
-│  apps/*  label_designer  label_canvas  label_property_panel  │
-│  label_widgets  label_preview                                │
-├─────────────────────────────────────────────────────────────┤
-│ Interface Adapters (traduzem domínio ↔ mundo externo)        │
-│  label_renderer + label_renderer_argox/zebra/tsc/pdf/canvas  │
-│  label_barcode  label_serialization                          │
-├─────────────────────────────────────────────────────────────┤
-│ Application / Use Cases (orquestração, sem UI, sem I/O)      │
-│  label_history  label_designer_state                         │
-├─────────────────────────────────────────────────────────────┤
-│ Domain (entidades e regras puras, zero dependência Flutter)  │
-│  label_core  label_expression_engine  label_layout_engine    │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ Frameworks & Drivers (Flutter, I/O, apps)                         │
+│  apps/*                                                           │
+│  flutter_label_designer: designer, canvas, property_panel,        │
+│                          widgets, preview                         │
+│  flutter_label_printer_windows                                    │
+├──────────────────────────────────────────────────────────────────┤
+│ Interface Adapters (traduzem domínio ↔ mundo externo)             │
+│  flutter_label_printer: renderer, renderer_pdf, renderer_canvas,  │
+│    renderer_raster, renderer_argox, renderer_argox_raster,        │
+│    barcode, serialization, print_transport                        │
+├──────────────────────────────────────────────────────────────────┤
+│ Application / Use Cases (orquestração, sem UI, sem I/O)           │
+│  flutter_label_designer: history, designer_state                  │
+├──────────────────────────────────────────────────────────────────┤
+│ Domain (entidades e regras puras, zero dependência Flutter)       │
+│  flutter_label_printer: core, expression_engine, layout_engine    │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
-Regra de dependência: setas sempre apontam **para dentro**. Nenhum pacote de domínio importa Flutter. Nenhum pacote de domínio conhece um renderer.
+Regra de dependência: setas sempre apontam **para dentro**. Nenhum módulo de domínio importa Flutter. Nenhum módulo de domínio conhece um renderer. Entre pacotes, a dependência é única: `flutter_label_designer` → `flutter_label_printer` ← `flutter_label_printer_windows`.
 
 ## 4. Estrutura de packages
 
@@ -102,104 +107,115 @@ label_designer_workspace/            # monorepo (melos)
 ├── melos.yaml
 ├── analysis_options.yaml
 ├── packages/
-│   ├── label_core/                  # entidades, value objects, enums
-│   ├── label_expression_engine/     # parser/avaliador de {{ }}
-│   ├── label_layout_engine/         # resolve variáveis + calcula layout
-│   ├── label_serialization/         # .label (JSON) <-> LabelDocument
-│   ├── label_history/               # Command Pattern, Undo/Redo
-│   ├── label_barcode/               # geração de símbolos de barcode/QR
-│   ├── label_renderer/              # interface LabelRenderer + contratos
-│   ├── label_renderer_argox/        # PPLA / PPLB
-│   ├── label_renderer_zebra/        # ZPL II
-│   ├── label_renderer_tsc/          # TSPL
-│   ├── label_renderer_pdf/          # PDF vetorial
-│   ├── label_renderer_canvas/       # PNG / JPEG (preview e export)
-│   ├── label_widgets/               # UI kit reutilizável (sem lógica de negócio)
-│   ├── label_designer_state/        # MobX Stores
-│   ├── label_canvas/                # editor visual (CustomPainter)
-│   ├── label_property_panel/        # painel de propriedades
-│   ├── label_preview/               # widget de preview (usa layout+canvas renderer)
-│   ├── label_designer/              # composição do editor completo
-│   ├── flutter_label_designer/      # guarda-chuva: reexporta a API pública numa única dependência
-│   ├── label_print_transport/       # interface PrintTransport/PrinterDiscovery
-│   └── label_print_transport_windows/ # backend Windows (spooler/USB) de label_print_transport
+│   ├── flutter_label_printer/       # impressão: modelo, layout, serialização, renderers, contrato de transporte
+│   │   └── lib/src/
+│   │       ├── core/                # entidades, value objects, enums
+│   │       ├── expression_engine/   # parser/avaliador de {{ }}
+│   │       ├── layout_engine/       # resolve variáveis + calcula layout
+│   │       ├── serialization/       # .label (JSON) <-> LabelDocument
+│   │       ├── barcode/             # geração de símbolos de barcode/QR
+│   │       ├── renderer/            # interface LabelRenderer + contratos
+│   │       ├── renderer_argox/      # PPLA / PPLB
+│   │       ├── renderer_argox_raster/ # PPLA com imagem rasterizada
+│   │       ├── renderer_raster/     # base compartilhada dos renderers rasterizados
+│   │       ├── renderer_pdf/        # PDF vetorial
+│   │       ├── renderer_canvas/     # PNG / JPEG (preview e export)
+│   │       └── print_transport/     # interface PrintTransport/PrinterDiscovery
+│   ├── flutter_label_designer/      # editor visual; reexporta flutter_label_printer
+│   │   └── lib/src/
+│   │       ├── history/             # Command Pattern, Undo/Redo
+│   │       ├── designer_state/      # MobX Stores
+│   │       ├── widgets/             # UI kit reutilizável (sem lógica de negócio)
+│   │       ├── canvas/              # editor visual (CustomPainter)
+│   │       ├── property_panel/      # painel de propriedades
+│   │       ├── preview/             # widget de preview (layout + canvas renderer)
+│   │       └── designer/            # composição do editor completo
+│   └── flutter_label_printer_windows/ # backend Windows (spooler/USB) do contrato de transporte
 └── apps/
+    ├── label_studio/                # app interno de referência
     └── playground/                  # sandbox interno, apenas para testar engines/renderers durante o desenvolvimento — não é entregável
 ```
 
 > Não há `designer_desktop`/`designer_web` neste workspace. O projeto Flutter existente do usuário é o "app" que consome os pacotes acima via `pubspec.yaml`.
 
-> **Adição pós-etapa 17**: `flutter_label_designer` não estava na lista original de packages — foi adicionado depois que o guia de integração (etapa 17) deixou claro que exigir 6-8 dependências `path:`/`git:` separadas do projeto consumidor era um atrito real. Ele só reexporta símbolos de pacotes já existentes (não contém lógica própria além do barrel file) e não muda nenhuma regra de dependência interna deste diagrama — ver seção 20 e `docs/INTEGRATION.md`.
+> **Adição pós-etapa 17**: `flutter_label_designer` não estava na lista original de packages — nasceu como pacote "guarda-chuva" que só reexportava os demais, depois que o guia de integração (etapa 17) mostrou que exigir 6-8 dependências separadas do projeto consumidor era um atrito real. Na consolidação de 2026-10-28 ele passou a **conter** o editor (módulos `history`, `designer_state`, `widgets`, `canvas`, `property_panel`, `preview`, `designer`) e a reexportar `flutter_label_printer` — ver seção 20 e `docs/INTEGRATION.md`.
 
 ## 5. Diagrama de packages
 
+Cada nó abaixo é um **módulo** (`lib/src/<nome>/`) dentro de um dos 3 packages publicáveis.
+
 ```mermaid
 graph TD
-    subgraph Workspace["label_designer_workspace"]
-        subgraph Domain["Domínio (puro Dart)"]
-            core[label_core]
-            expr[label_expression_engine]
-            layout[label_layout_engine]
-        end
-        subgraph Application["Aplicação"]
-            history[label_history]
-            state[label_designer_state]
-        end
-        subgraph Adapters["Interface Adapters"]
-            serial[label_serialization]
-            barcode[label_barcode]
-            renderer[label_renderer]
-            r_argox[label_renderer_argox]
-            r_zebra[label_renderer_zebra]
-            r_tsc[label_renderer_tsc]
-            r_pdf[label_renderer_pdf]
-            r_canvas[label_renderer_canvas]
-        end
-        subgraph UI["Frameworks / UI Flutter"]
-            widgets[label_widgets]
-            canvas[label_canvas]
-            propp[label_property_panel]
-            preview[label_preview]
-            designer[label_designer]
-        end
-        subgraph Apps["apps/ (interno, não entregável)"]
-            play[playground]
-        end
+    subgraph Printer["flutter_label_printer"]
+        core[core]
+        expr[expression_engine]
+        layout[layout_engine]
+        serial[serialization]
+        barcode[barcode]
+        renderer[renderer]
+        r_pdf[renderer_pdf]
+        r_canvas[renderer_canvas]
+        r_raster[renderer_raster]
+        r_argox[renderer_argox]
+        r_argox_raster[renderer_argox_raster]
+        transport[print_transport]
     end
-    userapp["Projeto Flutter existente do usuário<br/>(fora deste workspace)"]
-    userapp -.->|pubspec.yaml| designer
-    userapp -.->|pubspec.yaml, conforme a impressora| r_argox
+    subgraph Designer["flutter_label_designer"]
+        history[history]
+        state[designer_state]
+        widgets[widgets]
+        canvas[canvas]
+        propp[property_panel]
+        preview[preview]
+        designer[designer]
+    end
+    subgraph Windows["flutter_label_printer_windows"]
+        win[WindowsRawPrintTransport / WindowsPdfPrintTransport]
+    end
+    subgraph Apps["apps/ (interno, não entregável)"]
+        studio[label_studio]
+        play[playground]
+    end
+    userapp["Projeto Flutter do usuário"]
+    userapp -.->|editor + impressão| Designer
+    userapp -.->|só impressão| Printer
+    userapp -.->|spooler do Windows| Windows
 ```
 
 ## 6. Diagrama de dependências
 
+Dependências entre módulos (setas = "importa"). Módulos de `flutter_label_designer` só enxergam `flutter_label_printer` pelo barrel público dele.
+
 ```mermaid
 graph LR
-    core[label_core]
-    expr[label_expression_engine]
-    layout[label_layout_engine]
-    serial[label_serialization]
-    history[label_history]
-    barcode[label_barcode]
-    renderer[label_renderer]
-    r_canvas[label_renderer_canvas]
-    r_pdf[label_renderer_pdf]
-    r_argox[label_renderer_argox]
-    r_zebra[label_renderer_zebra]
-    r_tsc[label_renderer_tsc]
-    widgets[label_widgets]
-    state[label_designer_state]
-    canvas[label_canvas]
-    propp[label_property_panel]
-    preview[label_preview]
-    designer[label_designer]
-    play[playground]
-    userapp["projeto do usuário (externo)"]
+    subgraph Printer["flutter_label_printer"]
+        core[core]
+        expr[expression_engine]
+        layout[layout_engine]
+        serial[serialization]
+        barcode[barcode]
+        renderer[renderer]
+        r_canvas[renderer_canvas]
+        r_pdf[renderer_pdf]
+        r_raster[renderer_raster]
+        r_argox[renderer_argox]
+        r_argox_raster[renderer_argox_raster]
+        transport[print_transport]
+    end
+    subgraph Designer["flutter_label_designer"]
+        history[history]
+        state[designer_state]
+        widgets[widgets]
+        canvas[canvas]
+        propp[property_panel]
+        preview[preview]
+        designer[designer]
+    end
+    win[flutter_label_printer_windows]
 
     layout --> core
     layout --> expr
     serial --> core
-    history --> core
     barcode --> core
     renderer --> core
     r_canvas --> renderer
@@ -208,14 +224,14 @@ graph LR
     r_pdf --> barcode
     r_argox --> renderer
     r_argox --> barcode
-    r_zebra --> renderer
-    r_zebra --> barcode
-    r_tsc --> renderer
-    r_tsc --> barcode
+    r_raster --> renderer
+    r_raster --> r_canvas
+    r_argox_raster --> r_raster
+    r_argox_raster --> r_argox
+    history --> core
     state --> core
     state --> history
     state --> serial
-    state --> layout
     canvas --> core
     canvas --> widgets
     canvas --> state
@@ -229,26 +245,16 @@ graph LR
     designer --> preview
     designer --> state
     designer --> widgets
-    userapp -.-> designer
-    userapp -.-> serial
-    userapp -.-> r_argox
-    userapp -.-> r_zebra
-    userapp -.-> r_tsc
-    userapp -.-> r_pdf
-    play --> expr
-    play --> layout
-    play --> r_argox
-    play --> r_zebra
-    play --> r_tsc
-    play --> r_pdf
-    play --> r_canvas
+    win --> transport
 ```
 
-Observação de trade-off: `label_canvas` e `label_property_panel` dependem de `label_designer_state` (MobX) diretamente, por pragmatismo — ambos ficam reativos via `Observer()` sem camada extra. A alternativa mais pura (inversão de dependência, onde `label_canvas` define interfaces de controller e `label_designer_state` as implementa) fica documentada aqui como opção futura caso o projeto precise trocar MobX por outra solução de estado sem tocar no editor visual. Isso não viola a regra "editor nunca conhece renderer", pois `label_designer_state` não conhece nenhum `label_renderer_*`.
+Observação de trade-off: `canvas` e `property_panel` dependem de `designer_state` (MobX) diretamente, por pragmatismo — ambos ficam reativos via `Observer()` sem camada extra. A alternativa mais pura (inversão de dependência, onde `canvas` define interfaces de controller e `designer_state` as implementa) fica documentada aqui como opção futura caso o projeto precise trocar MobX por outra solução de estado sem tocar no editor visual. Isso não viola a regra "editor nunca conhece renderer", pois `designer_state` não conhece nenhum `renderer_*`.
 
 ## 7. Responsabilidade de cada módulo
 
-| Pacote | Responsabilidade única | Não faz |
+Na tabela, `label_<nome>` é o nome histórico do módulo `lib/src/<nome>/`: os módulos de domínio, adapters, `print_transport` e renderers ficam em `flutter_label_printer`; `history`, `designer_state` e a UI (`widgets`, `canvas`, `property_panel`, `preview`, `designer`) ficam em `flutter_label_designer`. Os renderers Zebra/TSC ainda não existem — hoje há `renderer_argox` (PPLA nativo), `renderer_raster` (base genérica de impressão em imagem, interface `RasterPrinterLanguage`) e `renderer_argox_raster` (PPLA em imagem).
+
+| Módulo | Responsabilidade única | Não faz |
 |---|---|---|
 | `label_core` | Entidades (`LabelDocument`, `LabelElement` e subtipos), value objects (`Point`, `Size2D`, `Dpi`, `Unit`), conversões de unidade puras | I/O, JSON, UI, layout, renderização |
 | `label_expression_engine` | Tokenizar/parsear/avaliar `{{ expressão }}` contra um `Map<String,dynamic>` de dados | Não conhece `LabelDocument`, não sabe o que é mm ou dots |
@@ -731,29 +737,14 @@ dependencies:
     path: ../label_designer_workspace/packages/flutter_label_designer
 ```
 
-Quem quiser controle fino (por exemplo, um serviço headless que só precisa de um renderer, sem o editor visual) pode continuar declarando os pacotes individuais em vez do guarda-chuva:
+Quem não precisa do editor visual (por exemplo, um serviço headless que só precisa de um renderer) pode depender só de `flutter_label_printer`, e acrescentar `flutter_label_printer_windows` para enviar bytes ao spooler do Windows. O transporte Windows **nunca** entra em `flutter_label_designer` — transporte é o passo que efetivamente fala com o sistema operacional/hardware, então só o app que realmente imprime declara essa dependência:
 
 ```yaml
 dependencies:
-  label_designer:
-    path: ../label_designer_workspace/packages/label_designer
-  label_renderer_argox:
-    path: ../label_designer_workspace/packages/label_renderer_argox
-  # + label_renderer_zebra, label_renderer_tsc, label_renderer_pdf conforme a impressora usada
-```
-
-`label_print_transport` (e seus backends, ex. `label_print_transport_windows`) seguem a
-mesma regra do controle fino: **nunca** entram em `flutter_label_designer` — diferente de um
-`label_renderer_*` (saída pura Dart), transporte é o passo que efetivamente fala com o
-sistema operacional/hardware, então só o app que realmente imprime declara essas
-dependências:
-
-```yaml
-dependencies:
-  label_print_transport:
-    path: ../label_designer_workspace/packages/label_print_transport
-  label_print_transport_windows:
-    path: ../label_designer_workspace/packages/label_print_transport_windows
+  flutter_label_printer:
+    path: ../label_designer_workspace/packages/flutter_label_printer
+  flutter_label_printer_windows:
+    path: ../label_designer_workspace/packages/flutter_label_printer_windows
 ```
 
 Ver o passo a passo completo em [`docs/INTEGRATION.md`](./INTEGRATION.md).

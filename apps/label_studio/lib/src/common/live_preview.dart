@@ -8,11 +8,12 @@ import 'package:flutter_label_designer/flutter_label_designer.dart' hide EdgeIns
 /// `Image.memory` preview, local to this app.
 ///
 /// This deliberately re-implements the same small pattern as
-/// `packages/label_preview` instead of depending on that package directly:
+/// `lib/src/preview` in `packages/flutter_label_designer` instead of
+/// depending on that package directly:
 /// `flutter_label_designer`'s barrel (see its doc comment) exposes exactly
 /// `LabelLayoutEngine` and `CanvasRenderer` as the intended way for a
-/// consuming app to build its own previews, and reserves `label_preview`
-/// itself as an internal implementation detail of `label_designer`. Staying
+/// consuming app to build its own previews, and reserves `preview`
+/// itself as an internal implementation detail of `designer`. Staying
 /// on the kit keeps this app a faithful example of what an external
 /// consumer project is expected to do.
 class LivePreview extends StatefulWidget {

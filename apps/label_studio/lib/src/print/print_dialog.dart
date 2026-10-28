@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:flutter_label_designer/flutter_label_designer.dart' hide EdgeInsets;
-import 'package:label_print_transport_windows/label_print_transport_windows.dart';
+import 'package:flutter_label_printer_windows/flutter_label_printer_windows.dart';
 
 import '../common/live_preview.dart';
 import '../common/sample_data_form.dart';
@@ -13,13 +13,13 @@ import '../common/sample_data_form.dart';
 enum _PrintFormat { pdf, ppla, pplaRaster }
 
 /// Resolves [document] with sample data and sends the result straight to a
-/// Windows printer via `label_print_transport_windows`: a PDF through the
+/// Windows printer via `flutter_label_printer_windows`: a PDF through the
 /// system print pipeline (works with any installed driver), or a raw PPLA
 /// byte stream for a directly-connected Argox thermal printer
 /// ([WindowsRawPrintTransport], which bypasses Windows' own rendering so
-/// the printer gets exactly the bytes `label_renderer_argox` produced) —
+/// the printer gets exactly the bytes `renderer_argox` produced) —
 /// either native PPLA commands per element, or (`pplaRaster`) the whole
-/// label rasterized as one image via `label_renderer_argox_raster`, which
+/// label rasterized as one image via `renderer_argox_raster`, which
 /// escapes PPLA's fixed font/shape limits at the cost of a bigger job; see
 /// that package's README.
 ///
@@ -296,7 +296,7 @@ class _PrintDialogState extends State<PrintDialog> {
   /// Same job-level settings as [_renderPpla] (darkness, copies, transfer
   /// type, offsets) — only how the label's *content* reaches the printer
   /// differs (rasterized image vs native commands). See
-  /// `label_renderer_argox_raster`'s README for what that trades off.
+  /// `renderer_argox_raster`'s README for what that trades off.
   Future<Uint8List> _renderPplaRaster(
     ResolvedDocument resolved, {
     required int copies,
@@ -543,7 +543,7 @@ class _PrintDialogState extends State<PrintDialog> {
 
   /// Raster-mode-only calibration — see [_memoryBank]/[_reverseRowOrder]/
   /// [_mirrorHorizontal]/[_fullResolution] and
-  /// `label_renderer_argox_raster`'s README for what each one is for and
+  /// `renderer_argox_raster`'s README for what each one is for and
   /// what symptom points at it.
   Widget _rasterFields() {
     return Column(
